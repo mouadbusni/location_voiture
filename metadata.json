@@ -1,0 +1,7 @@
+{
+  "name": "Sahara Velocity - Luxury Moroccan Car Rental",
+  "description": "A cinematic, ultra-premium car rental experience tailored for Morocco's elite travelers, featuring high-end fleet, integrated booking, and immersive visual storytelling.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
