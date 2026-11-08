@@ -32,121 +32,9 @@ import {
 } from 'lucide-react';
 import { FLEET, MOROCCAN_CITIES } from './constants';
 import { Car, CarCategory, BookingDetails } from './types';
+import { calculateRentalDays, buildBookingEmail, emailAddressValid } from './rental';
 
-// Helper Components
-const Preloader = ({ onComplete }: { onComplete: () => void; key?: string }) => {
-  const [percent, setPercent] = useState(0);
-  const [status, setStatus] = useState("INITIALIZING SYSTEMS...");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPercent(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        const increment = prev < 30 ? 1 : prev < 70 ? 2 : 5;
-        return Math.min(prev + increment, 100);
-      });
-    }, 40);
-
-    const statusTimers = [
-      setTimeout(() => setStatus("AUTHENTICATING BIOMETRICS..."), 800),
-      setTimeout(() => setStatus("CALIBRATING ATLAS ENGINE..."), 1800),
-      setTimeout(() => setStatus("SYSTEM READY. IGNITION ENGAGED."), 2800),
-    ];
-
-    const finishTimer = setTimeout(onComplete, 4000);
-
-    return () => {
-      clearInterval(interval);
-      statusTimers.forEach(clearTimeout);
-      clearTimeout(finishTimer);
-    };
-  }, [onComplete]);
-
-  return (
-    <motion.div 
-      initial={{ opacity: 1 }}
-      exit={{ 
-        clipPath: 'inset(50% 0 50% 0)',
-        opacity: 0,
-        transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] }
-      }}
-      className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden"
-    >
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(212,175,55,0.1)_1px,transparent_1px)] bg-[size:100%_40px] animate-[pulse_2s_infinite]" />
-      </div>
-
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="relative w-64 h-64 mb-12 flex items-center justify-center">
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 border-2 border-dashed border-[#D4AF37]/20 rounded-full"
-          />
-          <motion.div 
-            animate={{ rotate: -360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-4 border border-[#D4AF37]/40 rounded-full border-t-transparent"
-          />
-          
-          <div className="text-center">
-            <motion.span 
-              className="text-6xl font-cinzel font-bold text-[#D4AF37] block"
-              key={percent}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-            >
-              {percent}
-            </motion.span>
-            <span className="text-[10px] tracking-[0.5em] text-white/40 uppercase">Percent</span>
-          </div>
-
-          <motion.div 
-            animate={{ top: ['0%', '100%', '0%'] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-0 right-0 h-[1px] bg-[#D4AF37] shadow-[0_0_15px_#D4AF37] z-20"
-          />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-2xl md:text-3xl font-cinzel text-white tracking-[0.8em] mb-2">SAHARA VELOCITY</h1>
-          <div className="flex items-center justify-center gap-4">
-             <Cpu className="w-3 h-3 text-[#D4AF37]" />
-             <span className="text-[10px] tracking-[0.3em] text-[#D4AF37] font-bold uppercase">{status}</span>
-             <Activity className="w-3 h-3 text-[#D4AF37]" />
-          </div>
-        </motion.div>
-
-        <div className="flex gap-2">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ 
-                backgroundColor: percent > (i + 1) * 20 ? '#D4AF37' : 'rgba(255,255,255,0.1)',
-                scale: percent > (i + 1) * 20 ? [1, 1.5, 1] : 1
-              }}
-              className="w-1.5 h-1.5 rounded-full"
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute top-12 left-12 w-12 h-12 border-t-2 border-l-2 border-[#D4AF37]/30" />
-      <div className="absolute top-12 right-12 w-12 h-12 border-t-2 border-r-2 border-[#D4AF37]/30" />
-      <div className="absolute bottom-12 left-12 w-12 h-12 border-b-2 border-l-2 border-[#D4AF37]/30" />
-      <div className="absolute bottom-12 right-12 w-12 h-12 border-b-2 border-r-2 border-[#D4AF37]/30" />
-    </motion.div>
-  );
-};
-
+// Page sections
 const Navbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -519,15 +407,37 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
     extras: { driver: false, premiumInsurance: false, gps: false, babySeat: false }
   });
   const [isSuccess, setIsSuccess] = useState(false);
-
-  const totalPrice = useMemo(() => {
+  const [bookingError, setBookingError] = useState('');
+  const [guest, setGuest] = useState({ name: '', phone: '', email: '', notes: '' });
+  const bookingEmail = import.meta.env.VITE_BOOKING_EMAIL?.trim() ?? '';
+  const today = new Date().toLocaleDateString('en-CA');
+  const rentalDays = calculateRentalDays(details.startDate, details.endDate);
+  const dailyRate = useMemo(() => {
     if (!car) return 0;
-    let base = car.pricePerDay;
-    if (details.extras.driver) base += 500;
-    if (details.extras.premiumInsurance) base += 300;
-    if (details.extras.gps) base += 100;
-    return base;
+    return car.pricePerDay + (details.extras.driver ? 500 : 0) + (details.extras.premiumInsurance ? 300 : 0) + (details.extras.gps ? 100 : 0);
   }, [car, details.extras]);
+  const totalPrice = rentalDays ? dailyRate * rentalDays : null;
+  const goToExtras = () => {
+    if (!rentalDays || details.startDate < today) {
+      setBookingError('Select a valid pickup date and a return date at least one day later.');
+      return;
+    }
+    setBookingError('');
+    setStep(2);
+  };
+  const finalizeInquiry = () => {
+    if (!guest.name.trim() || !guest.phone.trim() || !emailAddressValid(guest.email)) {
+      setBookingError('Enter your full name, phone number and a valid email address.');
+      return;
+    }
+    if (!emailAddressValid(bookingEmail)) {
+      setBookingError('Email enquiries are not configured yet. Please contact the rental company directly.');
+      return;
+    }
+    setBookingError('');
+    window.location.href = buildBookingEmail(bookingEmail, car, details, guest, rentalDays, totalPrice);
+    setIsSuccess(true);
+  };
 
   if (isSuccess) {
     return (
@@ -546,8 +456,8 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
           <div className="w-24 h-24 border-2 border-[#D4AF37] rounded-full flex items-center justify-center mx-auto mb-10">
             <CheckCircle className="w-12 h-12 text-[#D4AF37]" />
           </div>
-          <h4 className="text-4xl font-cinzel font-bold mb-6">RESERVATION RECEIVED</h4>
-          <p className="text-white/50 mb-12 font-light">Your inquiry for the <span className="text-white font-bold">{car?.name}</span> has been logged. Our concierge will contact you shortly.</p>
+          <h4 className="text-4xl font-cinzel font-bold mb-6">EMAIL DRAFT READY</h4>
+          <p className="text-white/50 mb-12 font-light">Your email app should open with the rental details. Review the message and press Send. This is not a confirmed reservation.</p>
           <button 
             onClick={onClose}
             className="w-full py-5 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-white transition-all"
@@ -609,8 +519,9 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
           </div>
 
           <div className="pt-12 border-t border-white/10 mt-12">
-            <p className="text-[10px] text-white/30 tracking-[0.3em] uppercase mb-3">Daily Estimate</p>
-            <p className="text-5xl font-cinzel font-bold text-[#D4AF37] leading-none">{totalPrice} <span className="text-[10px] font-normal text-white/30 uppercase tracking-[0.4em]">MAD</span></p>
+            <p className="text-[10px] text-white/50 tracking-widest uppercase mb-3">{totalPrice === null ? 'Daily rate' : `Estimated total · ${rentalDays} days`}</p>
+            <p className="text-4xl font-cinzel font-bold text-[#D4AF37] leading-none">{car ? (totalPrice ?? dailyRate).toLocaleString('en-US') : 'Quote'} <span className="text-[10px] font-normal text-white/50 tracking-widest">{car ? 'MAD' : ''}</span></p>
+            <p className="text-xs text-white/55 mt-4">Estimate only. Final price and availability require confirmation.</p>
           </div>
         </div>
 
@@ -664,15 +575,15 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Start Date</label>
-                    <input type="date" className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input type="date" aria-label="Pickup date" min={today} value={details.startDate} onChange={(e) => { setDetails({ ...details, startDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">End Date</label>
-                    <input type="date" className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input type="date" aria-label="Return date" min={details.startDate || today} value={details.endDate} onChange={(e) => { setDetails({ ...details, endDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                   </div>
                 </div>
 
-                <button onClick={() => setStep(2)} className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
+                <button onClick={goToExtras} className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
                   Next: Configure Experience <ArrowRight className="w-5 h-5" />
                 </button>
               </motion.div>
@@ -732,31 +643,32 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Full Identity</label>
-                    <input placeholder="As per passport" className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input required autoComplete="name" placeholder="Full name" value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Secure Contact</label>
-                    <input placeholder="+212 ..." className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input required type="tel" autoComplete="tel" placeholder="+212 ..." value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                   </div>
                 </div>
                 <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Email for Confirmation</label>
-                    <input placeholder="guest@exclusive.com" className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input required type="email" autoComplete="email" placeholder="you@example.com" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                 </div>
                 <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Operational Notes</label>
-                    <textarea placeholder="e.g., Flight number, special beverage requests..." rows={4} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <textarea placeholder="Flight number or special requests..." rows={4} value={guest.notes} onChange={(e) => setGuest({ ...guest, notes: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
                 </div>
                 
                 <button 
-                  onClick={() => setIsSuccess(true)}
+                  onClick={finalizeInquiry}
                   className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.5em] hover:bg-white transition-all shadow-2xl"
                 >
-                  Finalize Reservation
+                  Prepare Email Inquiry
                 </button>
               </motion.div>
             )}
           </AnimatePresence>
+          {bookingError && <p role="alert" aria-live="polite" className="mt-6 text-sm text-red-300">{bookingError}</p>}
         </div>
       </motion.div>
     </motion.div>
@@ -974,7 +886,6 @@ const Footer = () => {
 };
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
   const [viewedCar, setViewedCar] = useState<Car | null>(null);
   const [showBooking, setShowBooking] = useState(false);
   const [bookingCar, setBookingCar] = useState<Car | undefined>();
@@ -991,12 +902,7 @@ export default function App() {
 
   return (
     <div className="relative bg-[#0a0a0a]">
-      <AnimatePresence>
-        {loading && <Preloader key="preloader" onComplete={() => setLoading(false)} />}
-      </AnimatePresence>
-
-      {!loading && (
-        <motion.div
+      <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
@@ -1068,8 +974,7 @@ export default function App() {
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.div>
-      )}
+      </motion.div>
     </div>
   );
 }
