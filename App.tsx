@@ -151,7 +151,7 @@ const FleetSection = ({ onCarSelect }: { onCarSelect: (car: Car) => void }) => {
             {['All', ...Object.values(CarCategory)].map(cat => (
               <button
                 key={cat}
-                onClick={() => setFilter(cat as any)}
+                onClick={() => setFilter(cat as CarCategory | 'All')}
                 className={`px-6 py-2 text-[10px] tracking-widest uppercase border transition-all duration-300 ${filter === cat ? 'bg-[#D4AF37] text-black border-[#D4AF37]' : 'border-white/20 text-white/60 hover:border-white hover:text-white'}`}
               >
                 {cat}
@@ -169,9 +169,12 @@ const FleetSection = ({ onCarSelect }: { onCarSelect: (car: Car) => void }) => {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               key={car.id}
               onClick={() => onCarSelect(car)}
+              onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onCarSelect(car); } }}
+              role="button" tabIndex={0}
+              aria-label={`View ${car.name}, from ${car.pricePerDay} MAD per day`}
               onMouseEnter={() => setHoveredCarId(car.id)}
               onMouseLeave={() => setHoveredCarId(null)}
-              className="group cursor-pointer bg-black/40 border border-white/5 relative overflow-hidden h-[500px]"
+              className="group cursor-pointer bg-black/40 border border-white/10 relative overflow-hidden h-[420px] md:h-[500px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
             >
               <motion.div 
                 layoutId={`image-${car.id}`}
@@ -223,16 +226,6 @@ const FleetSection = ({ onCarSelect }: { onCarSelect: (car: Car) => void }) => {
                   </div>
                 )}
 
-                <div className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden">
-                  <div className="absolute bottom-[20%] left-[15%] w-24 h-24 rounded-full border-[10px] border-white/5 blur-sm animate-[spin_0.3s_linear_infinite]" />
-                  <div className="absolute bottom-[20%] right-[15%] w-24 h-24 rounded-full border-[10px] border-white/5 blur-sm animate-[spin_0.3s_linear_infinite]" />
-                </div>
-
-                <div className="absolute top-[40%] left-[20%] w-32 h-32 bg-[#D4AF37]/40 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-0 group-hover:scale-150 z-20 pointer-events-none" />
-                <div className="absolute top-[40%] right-[20%] w-32 h-32 bg-[#D4AF37]/40 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-0 group-hover:scale-150 z-20 pointer-events-none" />
-                
-                <div className="absolute top-[45%] left-[25%] w-2 h-2 bg-white rounded-full shadow-[0_0_40px_10px_white] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 pointer-events-none" />
-                <div className="absolute top-[45%] right-[25%] w-2 h-2 bg-white rounded-full shadow-[0_0_40px_10px_white] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 pointer-events-none" />
               </motion.div>
               
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
@@ -249,7 +242,7 @@ const FleetSection = ({ onCarSelect }: { onCarSelect: (car: Car) => void }) => {
                   </div>
                 </motion.div>
                 
-                <div className="flex gap-6 pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                <div className="flex gap-6 pt-4 border-t border-white/10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0">
                   <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/70">
                     <Gauge className="w-4 h-4 text-[#D4AF37]" /> {car.specs.acceleration}
                   </div>
@@ -369,12 +362,12 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
                 </h3>
                 <ul className="space-y-6">
                   {[
-                    'Premium Audio System & Acoustic Glass',
-                    'Advanced Driver Assistance Systems',
-                    'Nappa Leather Interior with Heated Seats',
-                    'GPS Navigation with Moroccan Offline Maps',
-                    'Mileage policy confirmed before collection',
-                    'Assistance options confirmed on request'
+                    'Vehicle specification confirmed before reservation',
+                    'Collection arrangements shared with your quote',
+                    'Fuel and mileage policy explained in advance',
+                    'Deposit and insurance requirements clarified',
+                    'Optional equipment subject to availability',
+                    'Final availability subject to confirmation'
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-4 text-white/70">
                       <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full" />
@@ -384,10 +377,7 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
                 </ul>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <img src="https://images.unsplash.com/photo-1549414603-5188c83076c1?auto=format&fit=crop&q=80&w=400" className="w-full h-48 object-cover opacity-50 grayscale hover:grayscale-0 transition-all" alt="Interior" />
-                <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=400" className="w-full h-48 object-cover opacity-50 grayscale hover:grayscale-0 transition-all" alt="Detail" />
-              </div>
+              <p className="text-sm text-white/60 leading-relaxed">Vehicle photos and specifications are illustrative. Confirm the exact model, trim and equipment before booking.</p>
             </motion.div>
           </div>
         </div>
@@ -704,7 +694,7 @@ const ExperienceSection = () => {
             </div>
             <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-8 leading-none">ROADS WORTH TAKING</h3>
             <p className="text-xl text-white/70 mb-12 leading-relaxed font-light tracking-wide">
-              Born from a passion for the open roads of the Maghreb, Sahara Velocity represents more than just mobility. It is a tribute to the hospitality and sheer majesty of Morocco. 
+              From airport arrivals to open-road escapes, choose a vehicle to suit the way you travel. Explore the fleet, share your dates and request a quotation tailored to your plans. 
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
@@ -805,10 +795,10 @@ const ContactSection = () => {
             </div>
             <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-12">THE CONCIERGE</h3>
             <div className="space-y-10">
-              <a href="tel:+212522000000" className="flex items-center gap-8 group cursor-pointer">
-                <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full group-hover:border-[#D4AF37] transition-all"><Phone className="w-5 h-5 text-[#D4AF37]" /></div>
-                <p className="text-xl font-cinzel text-white group-hover:text-[#D4AF37] transition-colors">+212 522 00 00 00</p>
-              </a>
+              <div className="flex items-center gap-8">
+                <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full"><Phone className="w-5 h-5 text-[#D4AF37]" /></div>
+                <p className="text-base text-white/70">Contact details supplied with your quote</p>
+              </div>
               <div className="flex items-center gap-8">
                 <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full"><MapPin className="w-5 h-5 text-[#D4AF37]" /></div>
                 <p className="text-xl font-cinzel text-white">Morocco · Enquire about collection</p>
@@ -817,7 +807,7 @@ const ContactSection = () => {
             
             <div className="mt-16 p-10 bg-white/5 border-l-4 border-[#D4AF37]">
               <p className="text-white/60 font-light leading-relaxed italic">
-                "Our team curates your Moroccan expedition with military precision and royal flair."
+                "Tell us about your plans and we'll help you choose your next drive."
               </p>
             </div>
           </div>
