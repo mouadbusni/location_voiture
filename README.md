@@ -1,20 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Sahara Velocity
 
-# Run and deploy your AI Studio app
+Luxury vehicle showcase and rental enquiry website for Morocco, built with React 19, TypeScript, Vite, Tailwind CSS and Framer Motion. The original single-page architecture and charcoal/gold visual identity are preserved.
 
-This contains everything you need to run your app locally.
+## Run
+1. Install Node.js 22.12+ and run `npm install`.
+2. Copy `.env.example` to `.env.local` and set a real `VITE_BOOKING_EMAIL`.
+3. Run `npm run dev`.
+4. Verify with `npm test` and `npm run build`.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1NSeP8fuMPLQpohmZNxB6yuMgs2AVkFtO
+## Enquiries
+This is an enquiry website, not a real-time booking engine. Booking and contact forms prepare email drafts in the visitor's mail app. Visitors must send the drafts themselves. Without a configured business email the forms show a transparent error rather than falsely claiming submission. No payment, availability check, reservation confirmation, backend or database is included.
 
-## Run Locally
+## Before accepting customers
+Verify the vehicle inventory, photography, specifications, offered prices, extras, deposit, mileage and insurance conditions. Add verified business contact details, legal terms and privacy information. Test email handoff on real customer devices.
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Architecture
+`App.tsx` contains the existing page sections and booking modal; `constants.tsx` contains sample fleet data; `types.ts` defines data models; `rental.ts` handles validation and enquiry drafts; `styles.css` contains compiled Tailwind styling.
