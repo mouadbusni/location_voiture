@@ -52,7 +52,7 @@ const Navbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           </div>
           <div className="hidden sm:block">
             <div className="text-sm font-cinzel tracking-widest text-[#D4AF37]">SAHARA</div>
-            <div className="text-[10px] tracking-[0.4em] font-light text-white">VELOCITY</div>
+            <div className="text-[10px] tracking-[0.16em] font-light text-white">VELOCITY</div>
           </div>
         </div>
         
@@ -94,9 +94,9 @@ const Hero = ({ onBookingClick }: { onBookingClick: () => void }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-[#D4AF37] text-sm tracking-[0.5em] uppercase mb-6"
+          className="text-[#D4AF37] text-sm tracking-[0.18em] uppercase mb-6"
         >
-          Exclusive Rentals in the Kingdom
+          Luxury car rental across Morocco
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -104,7 +104,7 @@ const Hero = ({ onBookingClick }: { onBookingClick: () => void }) => {
           transition={{ duration: 1.2, delay: 0.7 }}
           className="text-5xl md:text-8xl font-cinzel font-bold mb-8 leading-tight gold-glow"
         >
-          THE ART OF <br /> PRESTIGE MOTION
+          Explore Morocco. <br /> Arrive in style.
         </motion.h1>
         <motion.div
           initial={{ opacity: 0 }}
@@ -315,7 +315,7 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
               transition={{ delay: 0.3 }}
             >
               <motion.div layoutId={`info-${car.id}`} className="mb-12">
-                <p className="text-[#D4AF37] text-sm font-bold tracking-[0.5em] uppercase mb-4">{car.brand}</p>
+                <p className="text-[#D4AF37] text-sm font-bold tracking-[0.18em] uppercase mb-4">{car.brand}</p>
                 <h1 className="text-5xl md:text-7xl font-cinzel font-bold mb-6">{car.name}</h1>
                 <div className="flex items-center gap-8 border-y border-white/10 py-8">
                   <div>
@@ -373,8 +373,8 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
                     'Advanced Driver Assistance Systems',
                     'Nappa Leather Interior with Heated Seats',
                     'GPS Navigation with Moroccan Offline Maps',
-                    'Unlimited Kilometers within Morocco',
-                    '24/7 Premium Roadside Assistance'
+                    'Mileage policy confirmed before collection',
+                    'Assistance options confirmed on request'
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-4 text-white/70">
                       <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full" />
@@ -486,7 +486,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
       >
         <div className="w-full lg:w-[350px] bg-black/50 p-12 flex flex-col border-r border-white/5">
           <div className="mb-12">
-            <h2 className="text-[#D4AF37] text-[10px] font-bold tracking-[0.5em] uppercase mb-10">Review Selection</h2>
+            <h2 className="text-[#D4AF37] text-[10px] font-bold tracking-[0.18em] uppercase mb-10">Review Selection</h2>
             {car ? (
               <div className="space-y-8">
                 <img src={car.image} alt={car.name} className="w-full h-48 object-cover rounded-sm shadow-2xl border border-white/5" />
@@ -547,7 +547,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 className="space-y-10"
               >
                 <div>
-                   <h4 className="text-[10px] tracking-[0.5em] text-[#D4AF37] uppercase font-black mb-12">Logistics Planning</h4>
+                   <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Logistics Planning</h4>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                       <div className="space-y-3">
                         <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Arrival Terminal</label>
@@ -583,7 +583,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                   </div>
                 </div>
 
-                <button onClick={goToExtras} className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
+                <button onClick={goToExtras} className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
                   Next: Configure Experience <ArrowRight className="w-5 h-5" />
                 </button>
               </motion.div>
@@ -597,7 +597,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-10"
               >
-                <h4 className="text-[10px] tracking-[0.5em] text-[#D4AF37] uppercase font-black mb-12">Concierge Add-ons</h4>
+                <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Concierge Add-ons</h4>
                 <div className="space-y-6">
                   {[
                     { id: 'driver', label: 'Multi-Lingual Chauffeur', price: '500 MAD/day', desc: 'Expert local drivers with VIP protocols' },
@@ -625,8 +625,8 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                   ))}
                 </div>
                 <div className="flex gap-6">
-                  <button onClick={() => setStep(1)} className="flex-1 py-8 border border-white/10 font-bold uppercase tracking-[0.4em] hover:border-white transition-all text-white/50 hover:text-white">Back</button>
-                  <button onClick={() => setStep(3)} className="flex-[2] py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl">Contact Protocols</button>
+                  <button onClick={() => setStep(1)} className="flex-1 py-8 border border-white/10 font-bold uppercase tracking-[0.16em] hover:border-white transition-all text-white/50 hover:text-white">Back</button>
+                  <button onClick={() => setStep(3)} className="flex-[2] py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl">Contact Protocols</button>
                 </div>
               </motion.div>
             )}
@@ -639,7 +639,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-10"
               >
-                <h4 className="text-[10px] tracking-[0.5em] text-[#D4AF37] uppercase font-black mb-12">Guest Information</h4>
+                <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Guest Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Full Identity</label>
@@ -661,7 +661,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 
                 <button 
                   onClick={finalizeInquiry}
-                  className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.5em] hover:bg-white transition-all shadow-2xl"
+                  className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.18em] hover:bg-white transition-all shadow-2xl"
                 >
                   Prepare Email Inquiry
                 </button>
@@ -700,18 +700,18 @@ const ExperienceSection = () => {
           >
             <div className="flex items-center gap-4 mb-8">
                <div className="h-1 w-12 bg-[#D4AF37]" />
-               <p className="text-[#D4AF37] text-[10px] tracking-[0.6em] uppercase font-bold">Heritage & Motion</p>
+               <p className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase font-bold">Heritage & Motion</p>
             </div>
-            <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-8 leading-none">THE KINGDOM'S JOURNEY</h3>
+            <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-8 leading-none">ROADS WORTH TAKING</h3>
             <p className="text-xl text-white/70 mb-12 leading-relaxed font-light tracking-wide">
               Born from a passion for the open roads of the Maghreb, Sahara Velocity represents more than just mobility. It is a tribute to the hospitality and sheer majesty of Morocco. 
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                { icon: Globe, title: 'Network', value: '8 Cities' },
-                { icon: Award, title: 'Excellence', value: '99% Satisfied' },
+                { icon: Globe, title: 'Network', value: 'Airport options' },
+                { icon: Award, title: 'Excellence', value: 'Rental enquiries' },
                 { icon: Compass, title: 'Adventure', value: 'Tailored Tours' },
-                { icon: Shield, title: 'Security', value: 'Tier 1 Insurance' }
+                { icon: Shield, title: 'Security', value: 'Terms on request' }
               ].map((stat, i) => (
                 <div key={i} className="flex items-center gap-6 p-8 border border-white/5 bg-black/40 backdrop-blur-md">
                   <stat.icon className="w-8 h-8 text-[#D4AF37]" />
@@ -745,28 +745,27 @@ const ExperienceSection = () => {
   );
 };
 
-const TestimonialsSection = () => {
+const ServicesSection = () => {
+  const services = [
+    { icon: MapPin, title: 'Airport collection', description: 'Choose your arrival airport and preferred return location.' },
+    { icon: Shield, title: 'Clear rental terms', description: 'Confirm insurance, mileage, deposit and final price with the rental team.' },
+    { icon: Compass, title: 'A journey your way', description: 'Share your itinerary and request a personalised quotation.' }
+  ];
   return (
-    <section className="py-24 bg-[#0a0a0a] relative overflow-hidden">
-      <div className="container mx-auto px-6 text-center mb-16">
-        <p className="text-[#D4AF37] text-[10px] tracking-[0.5em] uppercase font-bold mb-4">Voices of Excellence</p>
-        <h3 className="text-3xl md:text-5xl font-cinzel font-bold">TESTIMONIALS</h3>
-      </div>
-      
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { name: "Marc Aubert", text: "Exceptional service from CMN airport. The G-Wagon was in mint condition. Truly royal experience." },
-          { name: "Sarah Al-Fassi", text: "Renting the Range Rover for our trip to Ouarzazate was the best decision. Smooth and powerful." },
-          { name: "James Wilson", text: "Highly professional. No hidden costs. Sahara Velocity is the Hertz of the elite." }
-        ].map((t, i) => (
-          <div key={i} className="p-10 bg-white/5 border border-white/5 flex flex-col items-center text-center">
-            <div className="flex gap-1 mb-6">
-              {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-4 h-4 text-[#D4AF37] fill-[#D4AF37]" />)}
-            </div>
-            <p className="text-white/70 italic mb-8 leading-relaxed">"{t.text}"</p>
-            <p className="text-white font-bold tracking-widest uppercase text-xs">{t.name}</p>
-          </div>
-        ))}
+    <section id="services" className="py-24 bg-[#0e0e0e] border-y border-white/10">
+      <div className="container mx-auto px-6">
+        <p className="text-[#D4AF37] text-xs tracking-widest uppercase mb-5">Our approach</p>
+        <h2 className="font-cinzel text-4xl md:text-5xl mb-5">Details make the journey.</h2>
+        <p className="text-white/65 mb-12 max-w-2xl">Choose your vehicle, select your dates and request a personal quotation.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {services.map(({ icon: Icon, title, description }) => (
+            <article key={title} className="border border-white/10 bg-white/[0.025] p-8 md:p-10">
+              <Icon aria-hidden="true" className="w-7 h-7 text-[#D4AF37] mb-8" />
+              <h3 className="text-xl font-semibold mb-4">{title}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">{description}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -775,8 +774,23 @@ const TestimonialsSection = () => {
 const ContactSection = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [contactError, setContactError] = useState('');
+  const [contact, setContact] = useState({ name: '', email: '', message: '' });
+  const businessEmail = import.meta.env.VITE_BOOKING_EMAIL?.trim() ?? '';
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!contact.name.trim() || !emailAddressValid(contact.email) || !contact.message.trim()) {
+      setContactError('Please complete all fields using a valid email address.');
+      return;
+    }
+    if (!emailAddressValid(businessEmail)) {
+      setContactError('Enquiries are not configured yet. Please contact the rental company directly.');
+      return;
+    }
+    setContactError('');
+    const subject = encodeURIComponent('Sahara Velocity — general enquiry');
+    const body = encodeURIComponent(`Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`);
+    window.location.href = `mailto:${businessEmail}?subject=${subject}&body=${body}`;
     setIsSubmitted(true);
   };
 
@@ -787,7 +801,7 @@ const ContactSection = () => {
           <div>
             <div className="flex items-center gap-4 mb-8">
                <div className="h-1 w-12 bg-[#D4AF37]" />
-               <p className="text-[#D4AF37] text-[10px] tracking-[0.6em] uppercase font-bold">Global Presence</p>
+               <p className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase font-bold">Global Presence</p>
             </div>
             <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-12">THE CONCIERGE</h3>
             <div className="space-y-10">
@@ -797,7 +811,7 @@ const ContactSection = () => {
               </a>
               <div className="flex items-center gap-8">
                 <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full"><MapPin className="w-5 h-5 text-[#D4AF37]" /></div>
-                <p className="text-xl font-cinzel text-white">Anfa Blvd, Casablanca</p>
+                <p className="text-xl font-cinzel text-white">Morocco · Enquire about collection</p>
               </div>
             </div>
             
@@ -819,16 +833,17 @@ const ContactSection = () => {
                   className="space-y-8"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <input required placeholder="Name" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
-                    <input required type="email" placeholder="Email" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
+                    <input required aria-label="Name" autoComplete="name" value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} placeholder="Name" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
+                    <input required aria-label="Email" autoComplete="email" type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="Email" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
                   </div>
-                  <textarea required rows={4} placeholder="Your Message" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white resize-none" />
+                  <textarea required aria-label="Message" rows={4} value={contact.message} onChange={(e) => setContact({ ...contact, message: e.target.value })} placeholder="Your Message" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white resize-none" />
                   <motion.button 
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-6 bg-[#D4AF37] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-3"
+                    className="w-full py-6 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-3"
                   >
-                    Dispatch Request <Send className="w-4 h-4" />
+                    Prepare Email <Send className="w-4 h-4" />
                   </motion.button>
+                  {contactError && <p role="alert" className="text-sm text-red-300">{contactError}</p>}
                 </motion.form>
               ) : (
                 <motion.div 
@@ -846,15 +861,15 @@ const ContactSection = () => {
                     <CheckCircle className="w-10 h-10 text-[#D4AF37]" />
                   </motion.div>
                   <div>
-                    <h4 className="text-3xl font-cinzel font-bold text-white mb-4 tracking-wider">REQUEST DISPATCHED</h4>
+                    <h4 className="text-3xl font-cinzel font-bold text-white mb-4 tracking-wider">EMAIL DRAFT READY</h4>
                     <p className="text-white/50 text-sm tracking-widest uppercase leading-loose">
-                      Communication protocols active. <br /> Our concierge will contact you within 2 business hours.
+                      Your email app should open with the details. Please review and send the message yourself. This website has not delivered your enquiry.
                     </p>
                   </div>
                   <div className="pt-8">
                     <button 
                       onClick={() => setIsSubmitted(false)}
-                      className="text-[10px] tracking-[0.5em] text-[#D4AF37] uppercase font-bold hover:text-white transition-colors"
+                      className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-bold hover:text-white transition-colors"
                     >
                       New Inquiry
                     </button>
@@ -873,11 +888,11 @@ const Footer = () => {
   return (
     <footer className="py-24 bg-black border-t border-white/5">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.5em] text-white/20 font-bold uppercase gap-8">
-          <p>© 2024 SAHARA VELOCITY. KINGDOM'S PRESTIGE PARTNER.</p>
+        <div className="flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.18em] text-white/20 font-bold uppercase gap-8">
+          <p>© {new Date().getFullYear()} Sahara Velocity. All rights reserved.</p>
           <div className="flex gap-12">
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">Instagram</a>
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">LinkedIn</a>
+            <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
+            <a href="#fleet" className="hover:text-[#D4AF37] transition-colors">Fleet</a>
           </div>
         </div>
       </div>
@@ -929,7 +944,7 @@ export default function App() {
                   <Hero onBookingClick={() => handleOpenBooking()} />
                   <FleetSection onCarSelect={handleCarSelect} />
                   <ExperienceSection />
-                  <TestimonialsSection />
+                  <ServicesSection />
                   <ContactSection />
                 </motion.div>
               )}
