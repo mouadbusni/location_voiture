@@ -233,35 +233,24 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[60] bg-[#121212] overflow-y-auto"
+      className="fixed inset-0 z-[60] bg-[#101916] overflow-y-auto" role="dialog" aria-modal="true" aria-label={car.name + ' details'}
     >
       <div className="relative min-h-screen">
         <div className="h-[60vh] md:h-[80vh] relative overflow-hidden">
           <motion.div layoutId={`image-${car.id}`} className="w-full h-full">
-            {car.videoUrl ? (
-               <video
-                 src={car.videoUrl}
-                 autoPlay
-                 muted
-                 loop
-                 playsInline
-                 className="w-full h-full object-cover"
-               />
-            ) : (
-              <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
-            )}
+            <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#121212]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#101916]" />
           
           <button 
             onClick={onBack}
-            className="absolute top-12 left-6 md:left-12 flex items-center gap-4 text-white/70 hover:text-[#D4AF37] transition-all uppercase text-[10px] tracking-[0.3em] font-bold z-10"
+            className="absolute top-12 left-6 md:left-12 flex items-center gap-4 text-white/70 hover:text-[#C9AD7A] transition-all uppercase text-[10px] tracking-[0.3em] font-bold z-10"
           >
             <ArrowLeft className="w-5 h-5" /> Back to Fleet
           </button>
         </div>
 
-        <div className="container mx-auto px-6 -mt-32 relative z-10 pb-24">
+        <div className="container mx-auto px-6 md:px-12 -mt-24 md:-mt-32 relative z-10 pb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -269,16 +258,16 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
               transition={{ delay: 0.3 }}
             >
               <motion.div layoutId={`info-${car.id}`} className="mb-12">
-                <p className="text-[#D4AF37] text-sm font-bold tracking-[0.18em] uppercase mb-4">{car.brand}</p>
-                <h1 className="text-5xl md:text-7xl font-cinzel font-bold mb-6">{car.name}</h1>
+                <p className="text-[#C9AD7A] text-sm font-bold tracking-[0.18em] uppercase mb-4">{car.brand}</p>
+                <h1 className="text-6xl md:text-8xl font-editorial tracking-[-0.05em] leading-none mb-6">{car.name}</h1>
                 <div className="flex items-center gap-8 border-y border-white/10 py-8">
                   <div>
-                    <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">Daily Rate</p>
-                    <p className="text-4xl font-cinzel font-bold text-[#D4AF37]">{car.pricePerDay} MAD</p>
+                    <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">Indicative daily rate</p>
+                    <p className="text-4xl font-cinzel font-bold text-[#C9AD7A]">{car.pricePerDay} MAD</p>
                   </div>
                   <div className="w-[1px] h-12 bg-white/10" />
                   <div className="flex gap-4">
-                    <span className="px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] tracking-widest border border-[#D4AF37]/20 uppercase">{car.category}</span>
+                    <span className="px-3 py-1 bg-[#C9AD7A]/10 text-[#C9AD7A] text-[10px] tracking-widest border border-[#C9AD7A]/20 uppercase">{car.category}</span>
                     <span className="px-3 py-1 bg-white/5 text-white/60 text-[10px] tracking-widest border border-white/10 uppercase">{car.transmission}</span>
                   </div>
                 </div>
@@ -295,7 +284,7 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
                     { icon: Clock, label: 'Top Speed', value: car.specs.topSpeed }
                   ].map((spec, i) => (
                     <div key={i} className="p-6 bg-white/5 border border-white/5 flex flex-col items-center justify-center text-center">
-                      <spec.icon className="w-6 h-6 text-[#D4AF37] mb-4" />
+                      <spec.icon className="w-6 h-6 text-[#C9AD7A] mb-4" />
                       <p className="text-[10px] text-white/30 uppercase tracking-widest mb-1">{spec.label}</p>
                       <p className="font-bold text-lg">{spec.value}</p>
                     </div>
@@ -305,9 +294,9 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
 
               <button 
                 onClick={onBook}
-                className="w-full py-6 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.3em] hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-4"
+                className="w-full py-6 bg-[#C9AD7A] text-black font-bold uppercase tracking-[0.3em] hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-4"
               >
-                Reserve This Drive <ArrowRight className="w-5 h-5" />
+                Enquire about this car <ArrowRight className="w-5 h-5" />
               </button>
             </motion.div>
 
@@ -317,9 +306,9 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
               transition={{ delay: 0.6 }}
               className="space-y-12"
             >
-              <div className="bg-black/40 border border-white/5 p-10 backdrop-blur-md">
+              <div className="bg-white/[0.035] border border-white/10 p-7 md:p-10 backdrop-blur-md">
                 <h3 className="text-2xl font-cinzel font-bold mb-8 flex items-center gap-4">
-                  <span className="w-6 h-6 text-[#D4AF37]"><Info /></span> KEY FEATURES
+                  <span className="w-6 h-6 text-[#C9AD7A]"><Info /></span> RENTAL DETAILS
                 </h3>
                 <ul className="space-y-6">
                   {[
@@ -331,7 +320,7 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
                     'Final availability subject to confirmation'
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-4 text-white/70">
-                      <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full" />
+                      <div className="w-1.5 h-1.5 bg-[#C9AD7A] rounded-full" />
                       <span className="text-sm font-light tracking-wide">{feature}</span>
                     </li>
                   ))}
@@ -402,18 +391,18 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
         <motion.div 
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
-          className="relative bg-[#1a1a1a] p-16 border border-[#D4AF37]/30 text-center max-w-lg w-full"
+          className="relative bg-[#1a1a1a] p-7 md:p-12 border border-[#C9AD7A]/30 text-center max-w-lg w-full"
         >
-          <div className="w-24 h-24 border-2 border-[#D4AF37] rounded-full flex items-center justify-center mx-auto mb-10">
-            <CheckCircle className="w-12 h-12 text-[#D4AF37]" />
+          <div className="w-24 h-24 border-2 border-[#C9AD7A] rounded-full flex items-center justify-center mx-auto mb-10">
+            <CheckCircle className="w-12 h-12 text-[#C9AD7A]" />
           </div>
           <h4 className="text-4xl font-cinzel font-bold mb-6">EMAIL DRAFT READY</h4>
           <p className="text-white/50 mb-12 font-light">Your email app should open with the rental details. Review the message and press Send. This is not a confirmed reservation.</p>
           <button 
             onClick={onClose}
-            className="w-full py-5 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-white transition-all"
+            className="w-full py-5 bg-[#C9AD7A] text-black font-bold uppercase tracking-widest hover:bg-white transition-all"
           >
-            Close Portal
+            Close
           </button>
         </motion.div>
       </motion.div>
@@ -435,9 +424,9 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
         exit={{ y: 50, scale: 0.95 }}
         className="relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-sm overflow-hidden flex flex-col lg:flex-row shadow-2xl"
       >
-        <div className="w-full lg:w-[350px] bg-black/50 p-12 flex flex-col border-r border-white/5">
+        <div className="w-full lg:w-[320px] bg-black/50 p-6 sm:p-10 flex flex-col border-r border-white/5">
           <div className="mb-12">
-            <h2 className="text-[#D4AF37] text-[10px] font-bold tracking-[0.18em] uppercase mb-10">Review Selection</h2>
+            <h2 className="text-[#C9AD7A] text-[10px] font-bold tracking-[0.18em] uppercase mb-10">Your enquiry</h2>
             {car ? (
               <div className="space-y-8">
                 <img src={car.image} alt={car.name} className="w-full h-48 object-cover rounded-sm shadow-2xl border border-white/5" />
@@ -453,7 +442,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
           
           <div className="space-y-8 flex-grow">
             <div className="flex gap-4">
-               <MapPin className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
+               <MapPin className="w-5 h-5 text-[#C9AD7A] flex-shrink-0" />
                <div>
                   <p className="text-[9px] uppercase tracking-widest text-white/30 mb-1">Pick-up Terminal</p>
                   <p className="text-sm font-bold">{details.pickupLocation}</p>
@@ -461,7 +450,7 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
             </div>
             {details.extras.driver && (
               <div className="flex gap-4">
-                 <User className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
+                 <User className="w-5 h-5 text-[#C9AD7A] flex-shrink-0" />
                  <div>
                     <p className="text-sm font-bold">Chauffeur Included</p>
                  </div>
@@ -471,16 +460,16 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
 
           <div className="pt-12 border-t border-white/10 mt-12">
             <p className="text-[10px] text-white/50 tracking-widest uppercase mb-3">{totalPrice === null ? 'Daily rate' : `Estimated total · ${rentalDays} days`}</p>
-            <p className="text-4xl font-cinzel font-bold text-[#D4AF37] leading-none">{car ? (totalPrice ?? dailyRate).toLocaleString('en-US') : 'Quote'} <span className="text-[10px] font-normal text-white/50 tracking-widest">{car ? 'MAD' : ''}</span></p>
+            <p className="text-4xl font-cinzel font-bold text-[#C9AD7A] leading-none">{car ? (totalPrice ?? dailyRate).toLocaleString('en-US') : 'Quote'} <span className="text-[10px] font-normal text-white/50 tracking-widest">{car ? 'MAD' : ''}</span></p>
             <p className="text-xs text-white/55 mt-4">Estimate only. Final price and availability require confirmation.</p>
           </div>
         </div>
 
-        <div className="flex-grow p-12 md:p-20">
+        <div className="flex-grow p-6 sm:p-10 md:p-12">
           <div className="flex justify-between items-center mb-16">
             <div className="flex gap-4">
               {[1, 2, 3].map(i => (
-                <div key={i} className={`h-[2px] w-16 transition-all duration-700 ${step >= i ? 'bg-[#D4AF37]' : 'bg-white/10'}`} />
+                <div key={i} className={`h-[2px] w-16 transition-all duration-700 ${step >= i ? 'bg-[#C9AD7A]' : 'bg-white/10'}`} />
               ))}
             </div>
             <button onClick={onClose} className="w-12 h-12 flex items-center justify-center hover:bg-white/5 rounded-full transition-colors border border-white/5">
@@ -498,24 +487,24 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 className="space-y-10"
               >
                 <div>
-                   <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Logistics Planning</h4>
+                   <h4 className="text-[10px] tracking-[0.18em] text-[#C9AD7A] uppercase font-black mb-12">Dates & locations</h4>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                       <div className="space-y-3">
-                        <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Arrival Terminal</label>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Pickup location</label>
                         <select 
                           value={details.pickupLocation}
                           onChange={(e) => setDetails({ ...details, pickupLocation: e.target.value })}
-                          className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all appearance-none cursor-pointer"
+                          className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all appearance-none cursor-pointer"
                         >
                           {MOROCCAN_CITIES.map(c => <option key={c} value={c} className="bg-zinc-900">{c}</option>)}
                         </select>
                       </div>
                       <div className="space-y-3">
-                        <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Departure Terminal</label>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Return location</label>
                         <select 
                           value={details.returnLocation}
                           onChange={(e) => setDetails({ ...details, returnLocation: e.target.value })}
-                          className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all appearance-none cursor-pointer"
+                          className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all appearance-none cursor-pointer"
                         >
                           {MOROCCAN_CITIES.map(c => <option key={c} value={c} className="bg-zinc-900">{c}</option>)}
                         </select>
@@ -526,15 +515,15 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Start Date</label>
-                    <input type="date" aria-label="Pickup date" min={today} value={details.startDate} onChange={(e) => { setDetails({ ...details, startDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input type="date" aria-label="Pickup date" min={today} value={details.startDate} onChange={(e) => { setDetails({ ...details, startDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">End Date</label>
-                    <input type="date" aria-label="Return date" min={details.startDate || today} value={details.endDate} onChange={(e) => { setDetails({ ...details, endDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <input type="date" aria-label="Return date" min={details.startDate || today} value={details.endDate} onChange={(e) => { setDetails({ ...details, endDate: e.target.value }); setBookingError(''); }} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                   </div>
                 </div>
 
-                <button onClick={goToExtras} className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
+                <button onClick={goToExtras} className="w-full py-8 bg-[#C9AD7A] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-6">
                   Next: Configure Experience <ArrowRight className="w-5 h-5" />
                 </button>
               </motion.div>
@@ -548,14 +537,14 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-10"
               >
-                <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Concierge Add-ons</h4>
+                <h4 className="text-[10px] tracking-[0.18em] text-[#C9AD7A] uppercase font-black mb-12">Concierge Add-ons</h4>
                 <div className="space-y-6">
                   {[
-                    { id: 'driver', label: 'Multi-Lingual Chauffeur', price: '500 MAD/day', desc: 'Expert local drivers with VIP protocols' },
-                    { id: 'premiumInsurance', label: 'Tier-1 Liability Shield', price: '300 MAD/day', desc: 'Zero-deductible premium protection package' },
-                    { id: 'gps', label: 'Atlas Navigation', price: '100 MAD/day', desc: 'Precision satellite mapping for desert routes' }
+                    { id: 'driver', label: 'Chauffeur enquiry', price: '500 MAD/day', desc: 'Subject to availability' },
+                    { id: 'premiumInsurance', label: 'Insurance enquiry', price: '300 MAD/day', desc: 'Optional cover, subject to confirmation' },
+                    { id: 'gps', label: 'GPS enquiry', price: '100 MAD/day', desc: 'Subject to availability' }
                   ].map(extra => (
-                    <label key={extra.id} className={`flex items-center justify-between p-8 border transition-all cursor-pointer ${details.extras[extra.id as keyof typeof details.extras] ? 'bg-[#D4AF37]/10 border-[#D4AF37]' : 'bg-white/5 border-white/10 hover:border-white/20'}`}>
+                    <label key={extra.id} className={`flex items-center justify-between p-8 border transition-all cursor-pointer ${details.extras[extra.id as keyof typeof details.extras] ? 'bg-[#C9AD7A]/10 border-[#C9AD7A]' : 'bg-white/5 border-white/10 hover:border-white/20'}`}>
                       <div className="flex items-center gap-6">
                         <input 
                           type="checkbox" 
@@ -564,20 +553,20 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                             ...details, 
                             extras: { ...details.extras, [extra.id]: !details.extras[extra.id as keyof typeof details.extras] } 
                           })}
-                          className="w-6 h-6 accent-[#D4AF37]" 
+                          className="w-6 h-6 accent-[#C9AD7A]" 
                         />
                         <div>
                           <p className="font-bold text-lg mb-1">{extra.label}</p>
                           <p className="text-[10px] text-white/40 tracking-wider uppercase">{extra.desc}</p>
                         </div>
                       </div>
-                      <span className="text-[#D4AF37] font-cinzel font-bold">{extra.price}</span>
+                      <span className="text-[#C9AD7A] font-cinzel font-bold">{extra.price}</span>
                     </label>
                   ))}
                 </div>
                 <div className="flex gap-6">
                   <button onClick={() => setStep(1)} className="flex-1 py-8 border border-white/10 font-bold uppercase tracking-[0.16em] hover:border-white transition-all text-white/50 hover:text-white">Back</button>
-                  <button onClick={() => setStep(3)} className="flex-[2] py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl">Contact Protocols</button>
+                  <button onClick={() => setStep(3)} className="flex-[2] py-8 bg-[#C9AD7A] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl">Your details</button>
                 </div>
               </motion.div>
             )}
@@ -590,29 +579,29 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-10"
               >
-                <h4 className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-black mb-12">Guest Information</h4>
+                <h4 className="text-[10px] tracking-[0.18em] text-[#C9AD7A] uppercase font-black mb-12">Guest Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Full Identity</label>
-                    <input required autoComplete="name" placeholder="Full name" value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Full name</label>
+                    <input required autoComplete="name" placeholder="Full name" value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Secure Contact</label>
-                    <input required type="tel" autoComplete="tel" placeholder="+212 ..." value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Phone number</label>
+                    <input required type="tel" autoComplete="tel" placeholder="+212 ..." value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                   </div>
                 </div>
                 <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Email for Confirmation</label>
-                    <input required type="email" autoComplete="email" placeholder="you@example.com" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Email address</label>
+                    <input required type="email" autoComplete="email" placeholder="you@example.com" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                 </div>
                 <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Operational Notes</label>
-                    <textarea placeholder="Flight number or special requests..." rows={4} value={guest.notes} onChange={(e) => setGuest({ ...guest, notes: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#D4AF37] transition-all" />
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 block font-bold">Additional notes</label>
+                    <textarea placeholder="Flight number or special requests..." rows={4} value={guest.notes} onChange={(e) => setGuest({ ...guest, notes: e.target.value })} className="w-full bg-white/5 border border-white/10 p-6 outline-none focus:border-[#C9AD7A] transition-all" />
                 </div>
                 
                 <button 
                   onClick={finalizeInquiry}
-                  className="w-full py-8 bg-[#D4AF37] text-black font-black uppercase tracking-[0.18em] hover:bg-white transition-all shadow-2xl"
+                  className="w-full py-8 bg-[#C9AD7A] text-black font-black uppercase tracking-[0.18em] hover:bg-white transition-all shadow-2xl"
                 >
                   Prepare Email Inquiry
                 </button>
@@ -821,88 +810,90 @@ export default function App() {
 
   const handleOpenBooking = (car?: Car) => {
     setBookingCar(car || viewedCar || undefined);
+    setMobileMenuOpen(false);
     setShowBooking(true);
   };
 
-  const handleCarSelect = (car: Car) => {
-    setViewedCar(car);
-  };
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (showBooking) setShowBooking(false);
+      else if (mobileMenuOpen) setMobileMenuOpen(false);
+      else if (viewedCar) setViewedCar(null);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [showBooking, mobileMenuOpen, viewedCar]);
 
   return (
-    <div className="relative bg-[#0a0a0a]">
-      <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        >
-          <Navbar onOpenMenu={() => setMobileMenuOpen(true)} onBookingClick={() => handleOpenBooking()} />
-          
-          <main>
-            <AnimatePresence mode="wait">
-              {viewedCar ? (
-                <CarDetailView 
-                  key="detail"
-                  car={viewedCar} 
-                  onBack={() => setViewedCar(null)} 
-                  onBook={() => handleOpenBooking(viewedCar)} 
-                />
-              ) : (
-                <motion.div
-                  key="main"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 1.05 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <Hero onBookingClick={() => handleOpenBooking()} />
-                  <FleetSection onCarSelect={handleCarSelect} onBookingClick={() => handleOpenBooking()} />
-                  <ExperienceSection />
-                  <ServicesSection />
-                  <ContactSection />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </main>
+    <div className="min-h-screen bg-[#101916]">
+      <Navbar onOpenMenu={() => setMobileMenuOpen(true)} onBookingClick={() => handleOpenBooking()} />
 
-          <Footer />
+      <main>
+        <AnimatePresence mode="wait">
+          {viewedCar ? (
+            <CarDetailView
+              key={viewedCar.id}
+              car={viewedCar}
+              onBack={() => setViewedCar(null)}
+              onBook={() => handleOpenBooking(viewedCar)}
+            />
+          ) : (
+            <motion.div key="site" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              <Hero onBookingClick={() => handleOpenBooking()} />
+              <FleetSection onCarSelect={setViewedCar} onBookingClick={() => handleOpenBooking()} />
+              <ExperienceSection />
+              <ServicesSection />
+              <ContactSection />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
 
-          <AnimatePresence>
-            {showBooking && (
-              <BookingModal car={bookingCar} onClose={() => setShowBooking(false)} />
-            )}
-          </AnimatePresence>
+      <Footer />
 
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, x: '100%' }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: '100%' }}
-                className="fixed inset-0 z-[100] bg-black p-12 flex flex-col items-center justify-center gap-12"
-              >
-                <button 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="absolute top-12 right-12 p-4 border border-white/5 rounded-full"
-                >
-                  <X className="w-10 h-10 text-[#D4AF37]" />
-                </button>
-                {['Fleet', 'Experience', 'Services', 'Contact'].map((item, i) => (
-                  <motion.a 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                    key={item} 
-                    href={`#${item.toLowerCase()}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-5xl font-cinzel font-bold hover:text-[#D4AF37] transition-all tracking-[0.2em]"
-                  >
-                    {item}
-                  </motion.a>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-      </motion.div>
+      <AnimatePresence>
+        {showBooking && <BookingModal car={bookingCar} onClose={() => setShowBooking(false)} />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 24 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[100] bg-[#15211B] text-[#F3ECE1] px-7 sm:px-12 py-8 flex flex-col"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] uppercase tracking-[0.22em] text-[#D6BD8D]">Sahara Velocity</span>
+              <button type="button" aria-label="Close navigation menu" onClick={() => setMobileMenuOpen(false)} className="h-12 w-12 rounded-full border border-white/25 inline-flex justify-center items-center">
+                <X size={21} />
+              </button>
+            </div>
+            <div className="flex-1 flex flex-col justify-center gap-3 py-10">
+              {[
+                { label: 'The fleet', href: '#fleet' },
+                { label: 'Our story', href: '#experience' },
+                { label: 'The process', href: '#services' },
+                { label: 'Contact', href: '#contact' }
+              ].map((item, index) => (
+                <motion.a key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)}
+                  initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.06 }}
+                  className="font-editorial text-[clamp(3.5rem,12vw,6rem)] tracking-[-0.045em] leading-[1.12] hover:text-[#D6BD8D] transition-colors">
+                  {item.label}
+                </motion.a>
+              ))}
+            </div>
+            <button type="button" onClick={() => handleOpenBooking()} className="flex items-center justify-between border-t border-white/20 py-6 text-[13px] text-[#D6BD8D]">
+              Plan your drive <ArrowRight size={19} aria-hidden="true" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
