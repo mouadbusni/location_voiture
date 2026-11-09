@@ -60,9 +60,9 @@ export default function JourneyStudio({ onViewCar, onEnquire }: Props) {
             <div className="eyebrow text-[#896E46] mb-6 flex items-center gap-3">
               <span className="h-px w-8 bg-[#987E54]" /> 01 / Signature experience
             </div>
-            <h2 id="studio-title" className="font-editorial text-[clamp(4.7rem,8.5vw,9rem)] leading-[0.83] tracking-[-0.065em]">
-              Don't just rent. <br />
-              <span className="italic text-[#8E734B]">Find your road.</span>
+            <h2 id="studio-title" className="font-editorial text-[clamp(4rem,6.3vw,7rem)] leading-[0.91] tracking-[-0.06em]">
+              Start with <br />
+              <span className="italic text-[#8E734B]">the journey.</span>
             </h2>
           </div>
           <div className="lg:pl-12 lg:border-l lg:border-[#AFAD9D]">
@@ -135,15 +135,15 @@ export default function JourneyStudio({ onViewCar, onEnquire }: Props) {
           <div className="bg-[#15231B] text-[#F4EEE4] min-h-[700px] md:min-h-[760px] flex flex-col">
             <div className="relative min-h-[350px] md:min-h-[420px] flex-[1.1] overflow-hidden">
               <AnimatePresence mode="wait">
-                <motion.div key={selectedCar?.id ?? journeyId} initial={{ opacity: 0, scale: 1.045 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="absolute inset-0">
-                  {selectedCar ? <img src={selectedCar.image} alt={selectedCar.name} loading="lazy" className="w-full h-full object-cover object-center" /> : <div className="w-full h-full bg-[radial-gradient(circle_at_50%_35%,#465043,#15231B_65%)]" />}
+                <motion.div key={journeyId} initial={{ opacity: 0, scale: 1.045 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
+                  <img src={journey.coverImage} alt={journey.coverAlt} loading="lazy" className="w-full h-full object-cover object-center" />
                 </motion.div>
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-[#15231B] via-[#15231B]/5 to-[#15231B]/45 pointer-events-none" />
               <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-between pointer-events-none">
                 <div className="flex items-start justify-between">
                   <span className="eyebrow text-[#E0D4B9]">The route / {journey.eyebrow.slice(0, 2)}</span>
-                  <span className="bg-[#EDE7DC]/95 text-[#213529] text-[10px] tracking-[0.14em] px-3 py-2 uppercase">Your selection</span>
+                  <span className="bg-[#EDE7DC]/95 text-[#213529] text-[10px] tracking-[0.14em] px-3 py-2 uppercase">Morocco / route inspiration</span>
                 </div>
                 <div className="max-w-[520px]">
                   <p className="text-[11px] tracking-[0.15em] uppercase text-[#E0CAA7] mb-3">{journey.subline}</p>
