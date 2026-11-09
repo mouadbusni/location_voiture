@@ -99,11 +99,14 @@ export default function JourneyStudio({ onViewCar, onEnquire }: Props) {
             <div className="mt-9 grid sm:grid-cols-2 gap-7">
               <div>
                 <div className="flex items-center gap-2 text-[12px] font-semibold mb-3"><Users size={15} aria-hidden="true" /> Travellers</div>
-                <div role="group" aria-label="Number of travellers" className="flex gap-2">
-                  {[2, 4, 6].map(number => (
-                    <button type="button" key={number} onClick={() => setPassengers(number)} aria-pressed={passengers === number}
-                      className={'h-11 flex-1 border text-sm transition-colors ' + (passengers === number ? 'bg-[#22352A] text-white border-[#22352A]' : 'border-[#BCBFB3] hover:border-[#22352A]')}>{number}{number === 6 ? '+' : ''}</button>
-                  ))}
+                <div role="group" aria-label="Number of travellers" className="h-11 flex items-center justify-between border border-[#BCBFB3]">
+                  <button type="button" aria-label="Reduce number of travellers" disabled={passengers <= 1}
+                    onClick={() => setPassengers(n => Math.max(1, n - 1))}
+                    className="h-full w-11 flex items-center justify-center disabled:opacity-30 hover:bg-[#E0DED4]"><Minus size={16} /></button>
+                  <span aria-live="polite" className="text-[13px]">{passengers} {passengers === 1 ? 'person' : 'people'}</span>
+                  <button type="button" aria-label="Increase number of travellers" disabled={passengers >= 8}
+                    onClick={() => setPassengers(n => Math.min(8, n + 1))}
+                    className="h-full w-11 flex items-center justify-center disabled:opacity-30 hover:bg-[#E0DED4]"><Plus size={16} /></button>
                 </div>
               </div>
               <div>
