@@ -136,7 +136,7 @@ export default function JourneyStudio({ onViewCar, onEnquire }: Props) {
             <div className="relative min-h-[350px] md:min-h-[420px] flex-[1.1] overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.div key={journeyId} initial={{ opacity: 0, scale: 1.045 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
-                  <img src={journey.coverImage} alt={journey.coverAlt} loading="lazy" className="w-full h-full object-cover object-center" />
+                  <img src={journey.coverImage} alt={journey.coverAlt} loading="eager" decoding="async" className="w-full h-full object-cover object-center" />
                 </motion.div>
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-[#15231B] via-[#15231B]/5 to-[#15231B]/45 pointer-events-none" />
