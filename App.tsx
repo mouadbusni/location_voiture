@@ -35,39 +35,46 @@ import { Car, CarCategory, BookingDetails } from './types';
 import { calculateRentalDays, buildBookingEmail, emailAddressValid } from './rental';
 
 // Page sections
-const Navbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
+const Navbar = ({ onOpenMenu, onBookingClick }: { onOpenMenu: () => void; onBookingClick: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const updateScroll = () => setScrolled(window.scrollY > 36);
+    updateScroll();
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    return () => window.removeEventListener('scroll', updateScroll);
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-8'}`}>
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-10 h-10 border border-[#D4AF37] flex items-center justify-center group-hover:bg-[#D4AF37] transition-all duration-300">
-            <span className="text-xs font-cinzel text-[#D4AF37] group-hover:text-black">SV</span>
-          </div>
-          <div className="hidden sm:block">
-            <div className="text-sm font-cinzel tracking-widest text-[#D4AF37]">SAHARA</div>
-            <div className="text-[10px] tracking-[0.16em] font-light text-white">VELOCITY</div>
-          </div>
-        </div>
-        
-        <div className="hidden md:flex gap-12 text-xs tracking-widest uppercase font-semibold">
-          {['Fleet', 'Experience', 'Services', 'Contact'].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-[#D4AF37] transition-colors duration-300">{item}</a>
+    <nav aria-label="Primary navigation" className={'fixed inset-x-0 top-0 z-50 transition-colors duration-500 ' + (scrolled ? 'bg-[#101514]/95 backdrop-blur-xl border-b border-white/10' : 'bg-transparent')}>
+      <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16 h-[82px] md:h-[94px] flex items-center justify-between gap-8">
+        <a href="#home" aria-label="Sahara Velocity — home" className="flex items-center gap-3 group shrink-0">
+          <span aria-hidden="true" className="flex h-11 w-11 items-center justify-center border border-[#C7AD7C]/60 text-[#E8D6B6] font-editorial italic text-2xl tracking-[-0.06em] transition-colors group-hover:bg-[#C7AD7C] group-hover:text-[#111614]">sv.</span>
+          <span className="flex flex-col leading-tight">
+            <span className="text-[11px] font-semibold tracking-[0.25em] text-white uppercase">SAHARA</span>
+            <span className="text-[10px] font-medium tracking-[0.22em] text-[#C7AD7C] uppercase mt-1">VELOCITY</span>
+          </span>
+        </a>
+
+        <div className="hidden lg:flex items-center gap-9">
+          {[
+            { name: 'The fleet', href: '#fleet' },
+            { name: 'Our story', href: '#experience' },
+            { name: 'The process', href: '#services' },
+            { name: 'Contact', href: '#contact' }
+          ].map((item) => (
+            <a key={item.href} href={item.href} className="nav-link text-[12px] font-medium text-white/75 hover:text-white transition-colors">{item.name}</a>
           ))}
         </div>
 
-        <button 
-          onClick={onOpenMenu}
-          className="p-2 hover:bg-white/10 transition-colors"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={onBookingClick} type="button" className="hidden sm:flex items-center gap-3 border border-white/30 px-5 py-3 text-xs tracking-[0.04em] text-white hover:bg-[#D6BD8D] hover:border-[#D6BD8D] hover:text-[#101514] transition-all duration-300">
+            Plan your drive <ArrowRight size={15} aria-hidden="true" />
+          </button>
+          <button onClick={onOpenMenu} type="button" aria-label="Open navigation menu" className="flex lg:hidden h-11 w-11 items-center justify-center border border-white/20 text-white hover:border-[#C7AD7C] transition-colors">
+            <Menu size={20} />
+          </button>
+        </div>
       </div>
     </nav>
   );
@@ -75,188 +82,142 @@ const Navbar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 
 const Hero = ({ onBookingClick }: { onBookingClick: () => void }) => {
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline 
-          className="w-full h-full object-cover brightness-[0.4] scale-[1.05]"
-        >
-          <source src="https://videos.pexels.com/video-files/5048667/5048667-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/40" />
+    <section id="home" aria-labelledby="hero-title" className="relative isolate min-h-[760px] h-[100svh] max-h-[1100px] overflow-hidden bg-[#101614]">
+      <div className="absolute inset-0" aria-hidden="true">
+        <img src={FLEET[1].image} alt="" fetchPriority="high" className="hero-photo h-full w-full object-cover object-[60%_center]" />
+        <div className="hero-scrim absolute inset-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B100F]/95 via-transparent to-[#0B100F]/20" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-[#D4AF37] text-sm tracking-[0.18em] uppercase mb-6"
-        >
-          Luxury car rental across Morocco
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.7 }}
-          className="text-5xl md:text-8xl font-cinzel font-bold mb-8 leading-tight gold-glow"
-        >
-          Explore Morocco. <br /> Arrive in style.
-        </motion.h1>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 1.2 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center"
-        >
-          <button 
-            onClick={onBookingClick}
-            className="px-10 py-5 bg-[#D4AF37] text-black text-sm font-bold tracking-widest uppercase hover:bg-white transition-all duration-300 flex items-center justify-center gap-3"
-          >
-            Start Your Journey <ChevronRight className="w-4 h-4" />
-          </button>
-          <a href="#fleet" className="px-10 py-5 border border-white/30 text-white text-sm font-bold tracking-widest uppercase hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 flex items-center justify-center">
-            Explore Fleet
+      <div className="relative z-10 h-full max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16 flex items-center">
+        <div className="w-full pt-24 pb-36 md:pb-24">
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="flex items-center gap-3 mb-8 md:mb-10">
+            <span className="h-px w-9 bg-[#D6BD8D]" />
+            <span className="eyebrow text-[#EEE4D4]">A different way to move · Morocco</span>
+          </motion.div>
+          <motion.h1 id="hero-title" initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, delay: 0.18 }} className="font-editorial font-normal tracking-[-0.065em] leading-[0.84] text-[clamp(5.2rem,11vw,11.5rem)] text-[#F6F0E8] max-w-[1050px]">
+            Every road <br />
+            <span className="text-[#DCC399] italic">has a story.</span>
+          </motion.h1>
+          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.35 }} className="mt-8 md:mt-12 flex flex-col md:flex-row md:items-end gap-8 md:gap-12">
+            <p className="max-w-[390px] text-[14px] md:text-base leading-[1.85] text-white/75">
+              Exceptional journeys begin with the right car. Explore a considered collection for discovering Morocco on your own terms.
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="#fleet" className="group inline-flex items-center gap-7 bg-[#D6BD8D] px-7 py-4 text-[#111614] text-[13px] font-semibold transition-colors hover:bg-[#F1DFC1]">
+                Explore the collection <ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+              </a>
+              <button type="button" onClick={onBookingClick} className="inline-flex items-center gap-3 border border-white/40 px-7 py-4 text-white text-[13px] hover:border-white hover:bg-white/10 transition-colors">
+                Request a quote
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="absolute z-10 bottom-0 inset-x-0 border-t border-white/20">
+        <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16 py-6 md:py-7 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <span className="text-[#D6BD8D] text-xs font-semibold tracking-[0.14em]">01 / 03</span>
+            <span className="hidden sm:inline h-px w-12 bg-white/25" />
+            <span className="text-[11px] tracking-[0.11em] text-white/75 uppercase">The collection</span>
+          </div>
+          <div className="hidden sm:flex gap-10 text-[11px] text-white/70 tracking-[0.06em]">
+            <span>Six featured vehicles</span>
+            <span>Across Morocco</span>
+          </div>
+          <a href="#fleet" aria-label="Scroll to the fleet" className="h-10 w-10 border border-white/30 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+            <ArrowRight size={17} className="rotate-90" aria-hidden="true" />
           </a>
-        </motion.div>
-      </div>
-
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-[1px] h-20 bg-gradient-to-b from-[#D4AF37] to-transparent" />
+        </div>
       </div>
     </section>
   );
 };
 
-const FleetSection = ({ onCarSelect }: { onCarSelect: (car: Car) => void }) => {
+const FleetSection = ({ onCarSelect, onBookingClick }: { onCarSelect: (car: Car) => void; onBookingClick: () => void }) => {
   const [filter, setFilter] = useState<CarCategory | 'All'>('All');
-  const [hoveredCarId, setHoveredCarId] = useState<string | null>(null);
-  
-  const filteredCars = useMemo(() => {
-    return filter === 'All' ? FLEET : FLEET.filter(car => car.category === filter);
-  }, [filter]);
+  const categories: Array<CarCategory | 'All'> = ['All', ...Array.from(new Set(FLEET.map(car => car.category)))];
+  const filteredCars = useMemo(() => filter === 'All' ? FLEET : FLEET.filter(car => car.category === filter), [filter]);
 
   return (
-    <section id="fleet" className="py-24 bg-zellige">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+    <section id="fleet" aria-labelledby="fleet-title" className="relative bg-[#F0EEE7] text-[#19201D] py-24 md:py-36">
+      <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid lg:grid-cols-[1fr_auto] lg:items-end gap-9 mb-12 md:mb-16">
           <div>
-            <h2 className="text-[#D4AF37] text-sm tracking-widest uppercase mb-4">Curated Collection</h2>
-            <h3 className="text-4xl md:text-6xl font-cinzel font-bold">THE FLEET</h3>
+            <p className="eyebrow text-[#987C54] mb-5 flex items-center gap-3"><span className="block h-px w-8 bg-[#B49A73]" /> 01 / The collection</p>
+            <h2 id="fleet-title" className="font-editorial font-normal tracking-[-0.06em] leading-[0.9] text-[clamp(4.5rem,8vw,8.5rem)]">
+              Find your <span className="italic text-[#997D56]">drive.</span>
+            </h2>
+            <p className="mt-6 text-[#525A55] max-w-[470px] text-[14px] md:text-[15px] leading-relaxed">
+              From quiet refinement to open-road adventure. A collection of vehicles selected for how you want to travel.
+            </p>
           </div>
-          <div className="flex gap-4 flex-wrap">
-            {['All', ...Object.values(CarCategory)].map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat as CarCategory | 'All')}
-                className={`px-6 py-2 text-[10px] tracking-widest uppercase border transition-all duration-300 ${filter === cat ? 'bg-[#D4AF37] text-black border-[#D4AF37]' : 'border-white/20 text-white/60 hover:border-white hover:text-white'}`}
-              >
-                {cat}
+          <div className="flex flex-wrap gap-x-2 gap-y-2" role="group" aria-label="Filter cars by category">
+            {categories.map(category => (
+              <button type="button" key={category} aria-pressed={filter === category} onClick={() => setFilter(category)}
+                className={'px-4 py-2.5 text-[12px] border transition-colors duration-200 ' +
+                  (filter === category ? 'bg-[#1B2420] text-white border-[#1B2420]' : 'bg-transparent border-[#BCC0B8] text-[#4B544E] hover:border-[#1B2420] hover:text-[#1B2420]')}>
+                {category === 'All' ? 'All vehicles' : category}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCars.map((car, idx) => (
-            <motion.div
-              layoutId={`card-${car.id}`}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              key={car.id}
-              onClick={() => onCarSelect(car)}
-              onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onCarSelect(car); } }}
-              role="button" tabIndex={0}
-              aria-label={`View ${car.name}, from ${car.pricePerDay} MAD per day`}
-              onMouseEnter={() => setHoveredCarId(car.id)}
-              onMouseLeave={() => setHoveredCarId(null)}
-              className="group cursor-pointer bg-black/40 border border-white/10 relative overflow-hidden h-[420px] md:h-[500px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
-            >
-              <motion.div 
-                layoutId={`image-${car.id}`}
-                className="absolute inset-0 transition-all duration-700"
-              >
-                <AnimatePresence mode="wait">
-                  {hoveredCarId === car.id && car.videoUrl ? (
-                    <motion.div
-                      key="video"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.6 }}
-                      className="absolute inset-0 z-0"
-                    >
-                      <video
-                        src={car.videoUrl}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="w-full h-full object-cover"
-                        style={{ pointerEvents: 'none' }}
-                      />
-                    </motion.div>
-                  ) : (
-                    <motion.img
-                      key="image"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                      src={car.image}
-                      alt={car.name}
-                      className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-all duration-700 group-hover:scale-110"
-                    />
-                  )}
-                </AnimatePresence>
-
-                {car.videoUrl && (
-                  <div className="absolute top-6 right-6 z-30 opacity-60 group-hover:opacity-100 transition-opacity">
-                    <motion.div 
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="p-2 rounded-full border border-[#D4AF37] bg-black/40 backdrop-blur-sm"
-                    >
-                      <Play className="w-3 h-3 text-[#D4AF37] fill-[#D4AF37]" />
-                    </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          {filteredCars.map((car, index) => {
+            const featured = filter === 'All' && index === 0;
+            return (
+              <motion.button key={car.id} type="button" onClick={() => onCarSelect(car)}
+                aria-label={'View ' + car.name + ', estimated from ' + car.pricePerDay.toLocaleString('en-US') + ' MAD per day'}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.55, delay: Math.min(index * 0.06, 0.2) }}
+                className={'fleet-tile group relative isolate block w-full overflow-hidden text-left bg-[#121A17] text-white focus-visible:outline-[#B79A6F] ' +
+                  (featured ? 'md:col-span-2 h-[510px] md:h-[620px]' : 'h-[410px] md:h-[490px]')}>
+                <img src={car.image} alt={car.name} loading="lazy" decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.055]"
+                  style={{ objectPosition: featured ? 'center 54%' : 'center' }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B100F]/95 via-[#0B100F]/10 to-[#0B100F]/30" aria-hidden="true" />
+                <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-10">
+                  <div className="flex items-start justify-between gap-6">
+                    <span className="text-[10px] tracking-[0.16em] uppercase text-white/80 border border-white/40 px-3 py-2 backdrop-blur-sm">{car.category}</span>
+                    <span className="h-11 w-11 rounded-full border border-white/50 inline-flex items-center justify-center transition-all group-hover:bg-[#D6BD8D] group-hover:border-[#D6BD8D] group-hover:text-[#14201B]">
+                      <ArrowRight size={18} aria-hidden="true" className="-rotate-45 transition-transform group-hover:rotate-0" />
+                    </span>
                   </div>
-                )}
-
-              </motion.div>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-              
-              <div className="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-500 group-hover:-translate-y-4 z-20">
-                <motion.div layoutId={`info-${car.id}`} className="flex justify-between items-end mb-4">
                   <div>
-                    <p className="text-[#D4AF37] text-xs font-bold tracking-widest uppercase mb-1">{car.brand}</p>
-                    <h4 className="text-2xl font-cinzel font-bold">{car.name}</h4>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[10px] text-white/50 tracking-widest uppercase">From</p>
-                    <p className="text-xl font-bold text-[#D4AF37]">{car.pricePerDay} MAD<span className="text-xs text-white/50 font-normal">/day</span></p>
-                  </div>
-                </motion.div>
-                
-                <div className="flex gap-6 pt-4 border-t border-white/10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0">
-                  <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/70">
-                    <Gauge className="w-4 h-4 text-[#D4AF37]" /> {car.specs.acceleration}
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/70">
-                    <Fuel className="w-4 h-4 text-[#D4AF37]" /> {car.fuel}
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/70">
-                    <Zap className="w-4 h-4 text-[#D4AF37]" /> {car.specs.hp} HP
+                    <p className="text-[11px] text-[#D9C59F] uppercase tracking-[0.16em] mb-2">{car.brand} / {String(index + 1).padStart(2, '0')}</p>
+                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
+                      <div>
+                        <h3 className={'font-editorial leading-[0.94] tracking-[-0.035em] ' + (featured ? 'text-[clamp(3.9rem,7vw,7.2rem)]' : 'text-[clamp(3rem,4.4vw,5.3rem)]')}>{car.name}</h3>
+                        <p className="mt-3 text-[12px] text-white/70 flex items-center gap-3">
+                          <span>{car.transmission}</span><span className="h-1 w-1 rounded-full bg-[#D6BD8D]" /><span>{car.seats} seats</span><span className="h-1 w-1 rounded-full bg-[#D6BD8D]" /><span>{car.fuel}</span>
+                        </p>
+                      </div>
+                      <div className="shrink-0 sm:text-right border-t sm:border-0 border-white/20 pt-4 sm:pt-0">
+                        <p className="text-[10px] text-white/60 tracking-[0.1em] uppercase mb-1">Estimated from</p>
+                        <p className="text-[21px] font-medium text-[#E7D6B6]">{car.pricePerDay.toLocaleString('en-US')} <span className="text-[12px]">MAD / day</span></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              </motion.button>
+            );
+          })}
+          {filter === 'All' && (
+            <div className="min-h-[410px] md:min-h-[490px] bg-[#D6C4A8] text-[#19201D] p-9 md:p-12 flex flex-col justify-between">
+              <span className="text-[11px] tracking-[0.13em] uppercase">A more personal journey</span>
+              <div>
+                <h3 className="font-editorial italic text-[clamp(4rem,5.5vw,6rem)] leading-[0.95] tracking-[-0.04em] mb-6">Something else in mind?</h3>
+                <p className="max-w-[310px] text-sm leading-relaxed text-[#51564E] mb-8">Tell us the dates and kind of drive you have in mind. We can help you prepare an enquiry.</p>
+                <button onClick={onBookingClick} type="button" className="inline-flex items-center gap-5 border-b border-[#19201D] pb-2 text-sm font-semibold hover:gap-8 transition-all">
+                  Make an enquiry <ArrowRight size={18} aria-hidden="true" />
+                </button>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          )}
         </div>
+        <p className="mt-8 text-xs text-[#69716A]">Displayed vehicles, specifications and rates are illustrative. Availability and final rental conditions require confirmation.</p>
       </div>
     </section>
   );
@@ -912,7 +873,7 @@ export default function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <Navbar onOpenMenu={() => setMobileMenuOpen(true)} />
+          <Navbar onOpenMenu={() => setMobileMenuOpen(true)} onBookingClick={() => handleOpenBooking()} />
           
           <main>
             <AnimatePresence mode="wait">
@@ -932,7 +893,7 @@ export default function App() {
                   transition={{ duration: 0.8 }}
                 >
                   <Hero onBookingClick={() => handleOpenBooking()} />
-                  <FleetSection onCarSelect={handleCarSelect} />
+                  <FleetSection onCarSelect={handleCarSelect} onBookingClick={() => handleOpenBooking()} />
                   <ExperienceSection />
                   <ServicesSection />
                   <ContactSection />
