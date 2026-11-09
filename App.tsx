@@ -33,6 +33,7 @@ import {
 import { FLEET, MOROCCAN_CITIES } from './constants';
 import { Car, CarCategory, BookingDetails } from './types';
 import { calculateRentalDays, buildBookingEmail, emailAddressValid } from './rental';
+import JourneyStudio from './JourneyStudio';
 
 // Page sections
 const Navbar = ({ onOpenMenu, onBookingClick }: { onOpenMenu: () => void; onBookingClick: () => void }) => {
@@ -58,6 +59,7 @@ const Navbar = ({ onOpenMenu, onBookingClick }: { onOpenMenu: () => void; onBook
 
         <div className="hidden lg:flex items-center gap-9">
           {[
+            { name: 'Journey Studio', href: '#journey-studio' },
             { name: 'The fleet', href: '#fleet' },
             { name: 'Our story', href: '#experience' },
             { name: 'The process', href: '#services' },
@@ -104,8 +106,8 @@ const Hero = ({ onBookingClick }: { onBookingClick: () => void }) => {
               Exceptional journeys begin with the right car. Explore a considered collection for discovering Morocco on your own terms.
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              <a href="#fleet" className="group inline-flex items-center gap-7 bg-[#D6BD8D] px-7 py-4 text-[#111614] text-[13px] font-semibold transition-colors hover:bg-[#F1DFC1]">
-                Explore the collection <ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+              <a href="#journey-studio" className="group inline-flex items-center gap-7 bg-[#D6BD8D] px-7 py-4 text-[#111614] text-[13px] font-semibold transition-colors hover:bg-[#F1DFC1]">
+                Find your drive <ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
               </a>
               <button type="button" onClick={onBookingClick} className="inline-flex items-center gap-3 border border-white/40 px-7 py-4 text-white text-[13px] hover:border-white hover:bg-white/10 transition-colors">
                 Request a quote
@@ -336,19 +338,19 @@ const CarDetailView = ({ car, onBack, onBook }: { car: Car; onBack: () => void; 
   );
 };
 
-const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
+const BookingModal = ({ car, onClose, initialNotes = '', initialPickupLocation }: { car?: Car; onClose: () => void; initialNotes?: string; initialPickupLocation?: string }) => {
   const [step, setStep] = useState(1);
   const [details, setDetails] = useState<BookingDetails>({
     carId: car?.id || '',
-    pickupLocation: MOROCCAN_CITIES[0],
-    returnLocation: MOROCCAN_CITIES[0],
+    pickupLocation: initialPickupLocation || MOROCCAN_CITIES[0],
+    returnLocation: initialPickupLocation || MOROCCAN_CITIES[0],
     startDate: '',
     endDate: '',
     extras: { driver: false, premiumInsurance: false, gps: false, babySeat: false }
   });
   const [isSuccess, setIsSuccess] = useState(false);
   const [bookingError, setBookingError] = useState('');
-  const [guest, setGuest] = useState({ name: '', phone: '', email: '', notes: '' });
+  const [guest, setGuest] = useState({ name: '', phone: '', email: '', notes: initialNotes });
   const bookingEmail = import.meta.env.VITE_BOOKING_EMAIL?.trim() ?? '';
   const today = new Date().toLocaleDateString('en-CA');
   const rentalDays = calculateRentalDays(details.startDate, details.endDate);
@@ -807,9 +809,11 @@ export default function App() {
   const [showBooking, setShowBooking] = useState(false);
   const [bookingCar, setBookingCar] = useState<Car | undefined>();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [bookingPrefill, setBookingPrefill] = useState<{ notes: string; pickupLocation: string } | null>(null);
 
-  const handleOpenBooking = (car?: Car) => {
+  const handleOpenBooking = (car?: Car, prefill?: { notes: string; pickupLocation: string }) => {
     setBookingCar(car || viewedCar || undefined);
+    setBookingPrefill(prefill ?? null);
     setMobileMenuOpen(false);
     setShowBooking(true);
   };
@@ -841,6 +845,7 @@ export default function App() {
           ) : (
             <motion.div key="site" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
               <Hero onBookingClick={() => handleOpenBooking()} />
+              <JourneyStudio onViewCar={setViewedCar} onEnquire={(car, notes, pickupLocation) => handleOpenBooking(car, { notes, pickupLocation })} />
               <FleetSection onCarSelect={setViewedCar} onBookingClick={() => handleOpenBooking()} />
               <ExperienceSection />
               <ServicesSection />
@@ -853,7 +858,7 @@ export default function App() {
       <Footer />
 
       <AnimatePresence>
-        {showBooking && <BookingModal car={bookingCar} onClose={() => setShowBooking(false)} />}
+        {showBooking && <BookingModal car={bookingCar} onClose={() => setShowBooking(false)} initialNotes={bookingPrefill?.notes} initialPickupLocation={bookingPrefill?.pickupLocation} />}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -876,6 +881,7 @@ export default function App() {
             </div>
             <div className="flex-1 flex flex-col justify-center gap-3 py-10">
               {[
+                { label: 'Journey Studio', href: '#journey-studio' },
                 { label: 'The fleet', href: '#fleet' },
                 { label: 'Our story', href: '#experience' },
                 { label: 'The process', href: '#services' },
