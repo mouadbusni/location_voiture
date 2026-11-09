@@ -628,66 +628,38 @@ const BookingModal = ({ car, onClose }: { car?: Car; onClose: () => void }) => {
 
 const ExperienceSection = () => {
   return (
-    <section id="experience" className="py-24 overflow-hidden bg-black relative">
-      <div className="absolute inset-0 z-0">
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline 
-          className="w-full h-full object-cover opacity-30 grayscale"
-        >
-          <source src="https://videos.pexels.com/video-files/5243160/5243160-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <div className="flex items-center gap-4 mb-8">
-               <div className="h-1 w-12 bg-[#D4AF37]" />
-               <p className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase font-bold">Heritage & Motion</p>
+    <section id="experience" aria-labelledby="experience-title" className="bg-[#E4E2D9] text-[#1D2922] py-24 md:py-36 overflow-hidden">
+      <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid lg:grid-cols-[1.07fr_0.93fr] gap-14 lg:gap-24 items-center">
+          <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.65 }} className="relative order-2 lg:order-1">
+            <div className="relative aspect-[4/5] max-h-[680px] overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1549414603-5188c83076c1?auto=format&fit=crop&q=85&w=1400" alt="Scenic landscape along a journey" loading="lazy" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#14221B]/50 to-transparent" />
+              <span className="absolute left-6 bottom-6 md:left-9 md:bottom-9 text-[10px] text-white tracking-[0.13em] uppercase">The beauty is in the journey</span>
             </div>
-            <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-8 leading-none">ROADS WORTH TAKING</h3>
-            <p className="text-xl text-white/70 mb-12 leading-relaxed font-light tracking-wide">
-              From airport arrivals to open-road escapes, choose a vehicle to suit the way you travel. Explore the fleet, share your dates and request a quotation tailored to your plans. 
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                { icon: Globe, title: 'Network', value: 'Airport options' },
-                { icon: Award, title: 'Excellence', value: 'Rental enquiries' },
-                { icon: Compass, title: 'Adventure', value: 'Tailored Tours' },
-                { icon: Shield, title: 'Security', value: 'Terms on request' }
-              ].map((stat, i) => (
-                <div key={i} className="flex items-center gap-6 p-8 border border-white/5 bg-black/40 backdrop-blur-md">
-                  <stat.icon className="w-8 h-8 text-[#D4AF37]" />
-                  <div>
-                    <p className="text-[10px] tracking-widest text-white/30 uppercase font-bold">{stat.title}</p>
-                    <p className="text-2xl font-cinzel text-white">{stat.value}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="absolute -right-3 md:-right-9 top-8 md:top-12 w-28 h-28 md:w-40 md:h-40 bg-[#CBB58E] text-[#1B261F] rounded-full flex flex-col items-center justify-center -rotate-12 shadow-xl">
+              <Compass size={27} strokeWidth={1.3} aria-hidden="true" />
+              <span className="text-[9px] md:text-[10px] tracking-[0.1em] uppercase mt-2">Find your way</span>
             </div>
           </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2 }}
-            className="relative h-[600px] hidden lg:block"
-          >
-            <div className="absolute top-12 left-12 right-0 bottom-0 border-2 border-[#D4AF37]/20 -z-10 translate-x-12 -translate-y-12" />
-            <div className="w-full h-full overflow-hidden border border-white/5 shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1549414603-5188c83076c1?auto=format&fit=crop&q=80&w=1200" 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
-                alt="Moroccan High Atlas"
-              />
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.65, delay: 0.08 }} className="order-1 lg:order-2">
+            <p className="eyebrow text-[#977D57] mb-6 flex items-center gap-3"><span className="h-px w-8 bg-[#B49A73]" /> 02 / The experience</p>
+            <h2 id="experience-title" className="font-editorial tracking-[-0.058em] leading-[0.92] text-[clamp(4.5rem,7.5vw,8.5rem)]">
+              Not just the <br /><span className="italic text-[#937955]">destination.</span>
+            </h2>
+            <p className="max-w-[470px] mt-9 md:mt-12 text-[15px] md:text-[17px] text-[#4F5A53] leading-[1.95]">
+              There is something different about seeing Morocco from the open road. The stops you didn't plan. The long stretches between cities. The freedom to make the journey your own.
+            </p>
+            <p className="max-w-[460px] mt-5 text-[14px] text-[#66716A] leading-[1.85]">
+              Browse the collection and tell us what you need. Vehicle availability, final rates and rental conditions are confirmed before any reservation.
+            </p>
+            <a href="#services" className="mt-10 inline-flex items-center gap-7 text-[13px] font-semibold border-b border-[#25372C] pb-2 hover:gap-9 transition-all">
+              How it works <ArrowRight size={18} aria-hidden="true" />
+            </a>
+            <div className="mt-16 pt-7 border-t border-[#B5B7A9] flex flex-wrap items-center gap-8 md:gap-14">
+              <div><p className="font-editorial text-5xl leading-none">06</p><p className="text-[11px] text-[#626B63] mt-1">Featured vehicles</p></div>
+              <div className="h-12 w-px bg-[#B5B7A9]" />
+              <div><p className="font-editorial text-5xl leading-none">06</p><p className="text-[11px] text-[#626B63] mt-1">Listed airports</p></div>
             </div>
           </motion.div>
         </div>
@@ -697,25 +669,37 @@ const ExperienceSection = () => {
 };
 
 const ServicesSection = () => {
-  const services = [
-    { icon: MapPin, title: 'Airport collection', description: 'Choose your arrival airport and preferred return location.' },
-    { icon: Shield, title: 'Clear rental terms', description: 'Confirm insurance, mileage, deposit and final price with the rental team.' },
-    { icon: Compass, title: 'A journey your way', description: 'Share your itinerary and request a personalised quotation.' }
+  const steps = [
+    { number: '01', title: 'Explore', description: 'Find the style of vehicle that suits your route, group and plans.' },
+    { number: '02', title: 'Tell us your dates', description: 'Choose pickup and return locations, travel dates and optional extras.' },
+    { number: '03', title: 'Confirm the details', description: 'Send your enquiry. Availability, insurance, deposit and the final quotation must be confirmed directly.' }
   ];
+
   return (
-    <section id="services" className="py-24 bg-[#0e0e0e] border-y border-white/10">
-      <div className="container mx-auto px-6">
-        <p className="text-[#D4AF37] text-xs tracking-widest uppercase mb-5">Our approach</p>
-        <h2 className="font-cinzel text-4xl md:text-5xl mb-5">Details make the journey.</h2>
-        <p className="text-white/65 mb-12 max-w-2xl">Choose your vehicle, select your dates and request a personal quotation.</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {services.map(({ icon: Icon, title, description }) => (
-            <article key={title} className="border border-white/10 bg-white/[0.025] p-8 md:p-10">
-              <Icon aria-hidden="true" className="w-7 h-7 text-[#D4AF37] mb-8" />
-              <h3 className="text-xl font-semibold mb-4">{title}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">{description}</p>
-            </article>
-          ))}
+    <section id="services" aria-labelledby="services-title" className="bg-[#17221D] text-[#F3EEE5] py-24 md:py-36">
+      <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid lg:grid-cols-[0.92fr_1.08fr] gap-12 lg:gap-28">
+          <div>
+            <p className="eyebrow text-[#CCB28B] mb-7 flex items-center gap-3"><span className="h-px w-8 bg-[#CCB28B]" /> 03 / The process</p>
+            <h2 id="services-title" className="font-editorial text-[clamp(4.3rem,7.6vw,8rem)] leading-[0.93] tracking-[-0.055em]">
+              The details <br /><span className="italic text-[#D4BE9A]">matter.</span>
+            </h2>
+            <p className="text-[15px] leading-[1.85] text-white/60 mt-7 max-w-[420px]">
+              A straightforward approach to finding your next drive—without guessing about prices or availability.
+            </p>
+          </div>
+          <div className="border-t border-white/20">
+            {steps.map((step, index) => (
+              <motion.div key={step.number} initial={{ opacity: 0, x: 18 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: index * 0.09 }}
+                className="grid grid-cols-[56px_1fr] md:grid-cols-[80px_1fr] gap-4 md:gap-7 py-9 md:py-12 border-b border-white/20">
+                <span className="font-editorial italic text-3xl md:text-4xl text-[#CBB28C]">{step.number}</span>
+                <div>
+                  <h3 className="font-editorial text-4xl md:text-5xl leading-none">{step.title}</h3>
+                  <p className="text-[13px] md:text-[14px] text-white/60 leading-[1.75] mt-4 max-w-[440px]">{step.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -723,111 +707,83 @@ const ServicesSection = () => {
 };
 
 const ContactSection = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const [contactError, setContactError] = useState('');
   const [contact, setContact] = useState({ name: '', email: '', message: '' });
+  const [error, setError] = useState('');
+  const [draftReady, setDraftReady] = useState(false);
   const businessEmail = import.meta.env.VITE_BOOKING_EMAIL?.trim() ?? '';
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!contact.name.trim() || !emailAddressValid(contact.email) || !contact.message.trim()) {
-      setContactError('Please complete all fields using a valid email address.');
+      setError('Please enter your name, a valid email and your message.');
       return;
     }
     if (!emailAddressValid(businessEmail)) {
-      setContactError('Enquiries are not configured yet. Please contact the rental company directly.');
+      setError('The enquiry email is not configured yet. Please contact the rental company directly.');
       return;
     }
-    setContactError('');
+    setError('');
     const subject = encodeURIComponent('Sahara Velocity — general enquiry');
-    const body = encodeURIComponent(`Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`);
-    window.location.href = `mailto:${businessEmail}?subject=${subject}&body=${body}`;
-    setIsSubmitted(true);
+    const body = encodeURIComponent('Name: ' + contact.name + '\nEmail: ' + contact.email + '\n\n' + contact.message);
+    window.location.href = 'mailto:' + businessEmail + '?subject=' + subject + '&body=' + body;
+    setDraftReady(true);
   };
 
   return (
-    <section id="contact" className="py-24 bg-black border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+    <section id="contact" aria-labelledby="contact-title" className="relative bg-[#101916] text-[#F5F0E8] py-24 md:py-36 overflow-hidden">
+      <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-14 lg:gap-24 items-start">
           <div>
-            <div className="flex items-center gap-4 mb-8">
-               <div className="h-1 w-12 bg-[#D4AF37]" />
-               <p className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase font-bold">Global Presence</p>
-            </div>
-            <h3 className="text-4xl md:text-6xl font-cinzel font-bold mb-12">THE CONCIERGE</h3>
-            <div className="space-y-10">
-              <div className="flex items-center gap-8">
-                <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full"><Phone className="w-5 h-5 text-[#D4AF37]" /></div>
-                <p className="text-base text-white/70">Contact details supplied with your quote</p>
-              </div>
-              <div className="flex items-center gap-8">
-                <div className="w-12 h-12 border border-white/5 flex items-center justify-center rounded-full"><MapPin className="w-5 h-5 text-[#D4AF37]" /></div>
-                <p className="text-xl font-cinzel text-white">Morocco · Enquire about collection</p>
-              </div>
-            </div>
-            
-            <div className="mt-16 p-10 bg-white/5 border-l-4 border-[#D4AF37]">
-              <p className="text-white/60 font-light leading-relaxed italic">
-                "Tell us about your plans and we'll help you choose your next drive."
-              </p>
+            <p className="eyebrow text-[#D7BC91] mb-7 flex items-center gap-3"><span className="h-px w-8 bg-[#D7BC91]" /> 04 / Get in touch</p>
+            <h2 id="contact-title" className="font-editorial text-[clamp(5rem,9vw,10rem)] leading-[0.86] tracking-[-0.065em]">
+              Your next <br /><span className="italic text-[#D7BC91]">chapter.</span>
+            </h2>
+            <p className="max-w-[420px] text-[15px] leading-[1.9] text-white/65 mt-9">
+              Have a particular car or route in mind? Share a few details and prepare an enquiry for the rental team.
+            </p>
+            <div className="mt-14 pt-8 border-t border-white/20 flex items-start gap-4">
+              <MapPin size={21} className="text-[#D7BC91] shrink-0 mt-1" aria-hidden="true" />
+              <div><p className="text-sm">Across Morocco</p><p className="text-[12px] text-white/50 mt-1">Ask about airport collection and return locations.</p></div>
             </div>
           </div>
-          
-          <div className="bg-[#111] p-10 border border-white/5 relative overflow-hidden">
-            <AnimatePresence mode="wait">
-              {!isSubmitted ? (
-                <motion.form 
-                  key="form"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  onSubmit={handleSubmit}
-                  className="space-y-8"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <input required aria-label="Name" autoComplete="name" value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} placeholder="Name" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
-                    <input required aria-label="Email" autoComplete="email" type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="Email" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white" />
-                  </div>
-                  <textarea required aria-label="Message" rows={4} value={contact.message} onChange={(e) => setContact({ ...contact, message: e.target.value })} placeholder="Your Message" className="w-full bg-white/5 border-b border-white/10 py-4 outline-none focus:border-[#D4AF37] transition-all text-white resize-none" />
-                  <motion.button 
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-6 bg-[#D4AF37] text-black font-black uppercase tracking-[0.16em] hover:bg-white transition-all shadow-xl flex items-center justify-center gap-3"
-                  >
-                    Prepare Email <Send className="w-4 h-4" />
-                  </motion.button>
-                  {contactError && <p role="alert" className="text-sm text-red-300">{contactError}</p>}
-                </motion.form>
-              ) : (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="py-16 text-center space-y-8"
-                >
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", damping: 12, stiffness: 200, delay: 0.2 }}
-                    className="w-20 h-20 border-2 border-[#D4AF37] rounded-full flex items-center justify-center mx-auto"
-                  >
-                    <CheckCircle className="w-10 h-10 text-[#D4AF37]" />
-                  </motion.div>
-                  <div>
-                    <h4 className="text-3xl font-cinzel font-bold text-white mb-4 tracking-wider">EMAIL DRAFT READY</h4>
-                    <p className="text-white/50 text-sm tracking-widest uppercase leading-loose">
-                      Your email app should open with the details. Please review and send the message yourself. This website has not delivered your enquiry.
-                    </p>
-                  </div>
-                  <div className="pt-8">
-                    <button 
-                      onClick={() => setIsSubmitted(false)}
-                      className="text-[10px] tracking-[0.18em] text-[#D4AF37] uppercase font-bold hover:text-white transition-colors"
-                    >
-                      New Inquiry
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          <div className="bg-[#E9E5DB] text-[#1C2921] p-7 sm:p-10 md:p-14">
+            {!draftReady ? (
+              <form className="space-y-7" onSubmit={handleSubmit}>
+                <div className="flex items-center justify-between gap-6 pb-6 border-b border-[#CBC8BB]">
+                  <h3 className="font-editorial text-4xl md:text-5xl leading-none">Start a conversation.</h3>
+                  <span className="shrink-0 h-10 w-10 border border-[#A4A99D] rounded-full flex items-center justify-center"><ArrowRight size={18} aria-hidden="true" className="-rotate-45" /></span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <label className="block">
+                    <span className="block text-[11px] text-[#4F5A50] mb-2">Your name</span>
+                    <input type="text" autoComplete="name" value={contact.name} onChange={e => setContact({ ...contact, name: e.target.value })} placeholder="Full name" required
+                      className="w-full border-b border-[#B8BBAF] px-0 py-3 bg-transparent placeholder:text-[#8F958B] text-[#18251C] focus:outline-none focus:border-[#826A43] text-[14px]" />
+                  </label>
+                  <label className="block">
+                    <span className="block text-[11px] text-[#4F5A50] mb-2">Your email</span>
+                    <input type="email" autoComplete="email" value={contact.email} onChange={e => setContact({ ...contact, email: e.target.value })} placeholder="you@example.com" required
+                      className="w-full border-b border-[#B8BBAF] px-0 py-3 bg-transparent placeholder:text-[#8F958B] text-[#18251C] focus:outline-none focus:border-[#826A43] text-[14px]" />
+                  </label>
+                </div>
+                <label className="block">
+                  <span className="block text-[11px] text-[#4F5A50] mb-2">Tell us about your trip</span>
+                  <textarea rows={4} value={contact.message} onChange={e => setContact({ ...contact, message: e.target.value })} required placeholder="Vehicle, travel dates and any questions..."
+                    className="w-full border-b border-[#B8BBAF] px-0 py-3 bg-transparent placeholder:text-[#8F958B] text-[#18251C] focus:outline-none focus:border-[#826A43] resize-y text-[14px]" />
+                </label>
+                {error && <p className="text-sm text-[#9B3F32]" role="alert">{error}</p>}
+                <button type="submit" className="w-full bg-[#1D2C24] hover:bg-[#34483B] transition-colors py-4 px-6 text-white text-sm font-medium inline-flex justify-between items-center gap-4">
+                  Prepare email enquiry <ArrowRight size={19} aria-hidden="true" />
+                </button>
+                <p className="text-[11px] leading-relaxed text-[#697167]">This prepares a draft in your email app. You must send it yourself. No reservation is confirmed online.</p>
+              </form>
+            ) : (
+              <div className="min-h-[420px] flex flex-col items-start justify-center">
+                <CheckCircle size={39} className="text-[#728169] mb-8" aria-hidden="true" />
+                <h3 className="font-editorial text-5xl mb-5">Your draft is ready.</h3>
+                <p className="text-[#66716A] text-sm leading-relaxed mb-8">Please review the message and send it from your email app. This website has not sent an enquiry or confirmed any rental.</p>
+                <button type="button" onClick={() => setDraftReady(false)} className="border-b border-[#1D2C24] pb-1 text-sm">Write another enquiry</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -835,21 +791,27 @@ const ContactSection = () => {
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="py-24 bg-black border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.18em] text-white/20 font-bold uppercase gap-8">
-          <p>© {new Date().getFullYear()} Sahara Velocity. All rights reserved.</p>
-          <div className="flex gap-12">
-            <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
-            <a href="#fleet" className="hover:text-[#D4AF37] transition-colors">Fleet</a>
-          </div>
+const Footer = () => (
+  <footer className="bg-[#101916] text-[#F5F0E8] border-t border-white/15 pt-14 pb-9">
+    <div className="max-w-[1480px] mx-auto px-6 md:px-12 lg:px-16">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-14">
+        <p className="eyebrow text-[#CEB58D]">A considered way to move</p>
+        <div className="flex gap-8 text-sm text-white/70">
+          <a className="hover:text-white transition-colors" href="#fleet">Our fleet</a>
+          <a className="hover:text-white transition-colors" href="#services">The process</a>
+          <a className="hover:text-white transition-colors" href="#contact">Get in touch</a>
         </div>
       </div>
-    </footer>
-  );
-};
+      <a href="#home" aria-label="Return to top" className="block font-editorial leading-[0.75] tracking-[-0.075em] text-[clamp(4.2rem,12vw,13rem)] text-[#E9E0D2] whitespace-nowrap overflow-hidden">
+        Sahara <span className="italic text-[#BFA77F]">Velocity.</span>
+      </a>
+      <div className="mt-12 pt-7 border-t border-white/15 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/50">
+        <span>© {new Date().getFullYear()} Sahara Velocity · Morocco</span>
+        <span>All rental enquiries are subject to confirmation.</span>
+      </div>
+    </div>
+  </footer>
+);
 
 export default function App() {
   const [viewedCar, setViewedCar] = useState<Car | null>(null);
