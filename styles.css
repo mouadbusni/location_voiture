@@ -126,3 +126,37 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* The Journey Studio: quiet interactions, with a visible selected state. */
+.journey-option {
+  position: relative;
+  color: #55645a;
+}
+.journey-option:hover,
+.journey-option:focus-visible,
+.journey-option.is-active {
+  color: #1b2922;
+}
+.journey-option.is-active::before {
+  content: '';
+  position: absolute;
+  left: -13px;
+  top: 17px;
+  bottom: 17px;
+  width: 2px;
+  background: #9a7d52;
+}
+.journey-option.is-active .font-editorial {
+  font-style: italic;
+}
+#journey-studio select {
+  color-scheme: light;
+}
+#journey-studio button,
+#journey-studio a {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 640px) {
+  .journey-option.is-active::before { left: -9px; }
+  .journey-editor { box-shadow: none; }
+}
