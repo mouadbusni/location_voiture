@@ -13,6 +13,8 @@ export interface Journey {
   mood: string;
   note: string;
   pickupLocation: string;
+  coverImage: string;
+  coverAlt: string;
   categoryPriority: string[];
 }
 
@@ -28,6 +30,8 @@ export const JOURNEYS: Journey[] = [
     mood: 'Coastline',
     note: 'Interested in the Atlantic Line journey idea: Casablanca, Rabat and Tangier.',
     pickupLocation: 'Casablanca - CMN Airport',
+    coverImage: 'https://images.unsplash.com/photo-1580816256650-6d3e23995f42?auto=format&fit=crop&q=82&w=1400',
+    coverAlt: 'Coastal road by the sea in Tangier, Morocco',
     categoryPriority: ['Sport', 'Luxury', 'SUV', 'Economy']
   },
   {
@@ -41,6 +45,8 @@ export const JOURNEYS: Journey[] = [
     mood: 'Mountains',
     note: 'Interested in the Atlas Passage journey idea: Marrakech, High Atlas and Ouarzazate.',
     pickupLocation: 'Marrakech - RAK Airport',
+    coverImage: 'https://images.unsplash.com/photo-1560789627-eed2d32f7326?auto=format&fit=crop&q=82&w=1400',
+    coverAlt: 'Mountain landscape in the High Atlas, Morocco',
     categoryPriority: ['SUV', 'Luxury', 'Economy', 'Sport']
   },
   {
@@ -54,6 +60,8 @@ export const JOURNEYS: Journey[] = [
     mood: 'City life',
     note: 'Interested in the City Chapter journey idea: Casablanca, Rabat and Marrakech.',
     pickupLocation: 'Casablanca - CMN Airport',
+    coverImage: 'https://images.unsplash.com/photo-1699210260186-25758f6bc594?auto=format&fit=crop&q=82&w=1400',
+    coverAlt: 'Rooftops of Marrakech at sunset',
     categoryPriority: ['Luxury', 'Sport', 'SUV', 'Economy']
   }
 ];
